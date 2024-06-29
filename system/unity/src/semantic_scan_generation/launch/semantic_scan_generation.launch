@@ -1,0 +1,9 @@
+<launch>
+
+  <arg name="cameraOffsetZ" default="0"/>
+
+  <node pkg="semantic_scan_generation" type="semanticScanGeneration" name="semanticScanGeneration" output="screen" required="true">
+    <param name="cameraOffsetZ" value="$(arg cameraOffsetZ)" />
+  </node>
+
+</launch>

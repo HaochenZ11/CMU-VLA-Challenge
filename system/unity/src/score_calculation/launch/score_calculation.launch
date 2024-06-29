@@ -1,0 +1,9 @@
+<launch>
+
+  <node pkg="score_calculation" type="scoreCalculation" name="scoreCalculation" output="screen" required="true">
+    <param name="ref_traj_dir" type="string" value="$(find score_calculation)/data/trajectory_q4.ply" />
+    <param name="actual_traj_dir" type="string" value="$(find vehicle_simulator)/log/trajectory.txt" />
+    <param name="penaltyScale" type="double" value="0.01" />
+  </node>
+
+</launch>

@@ -1,0 +1,9 @@
+<launch>
+
+  <node pkg="bbox_calculation" type="bboxCalculation" name="bboxCalculation" output="screen" required="true">
+    <param name="map_file_dir" type="string" value="$(find vehicle_simulator)/mesh/unity/map.ply" />
+    <param name="object_list_file_dir" type="string" value="$(find vehicle_simulator)/mesh/unity/object_list.txt" />
+    <param name="maxObjectNum" type="int" value="500" />
+  </node>
+
+</launch>

@@ -1,0 +1,24 @@
+<launch>
+
+  <arg name="world_name" default="garage"/>
+
+  <node pkg="waypoint_converter" type="waypointConverter" name="waypointConverter" output="screen" required="true">
+    <param name="trav_area_file_dir" type="string" value="$(find vehicle_simulator)/mesh/$(arg world_name)/traversable_area.ply" />
+    <param name="boundary_file_dir" type="string" value="$(find vehicle_simulator)/mesh/$(arg world_name)/boundary.ply" />
+    <param name="waypointXYRadius" type="double" value="0.15" />
+    <param name="waypointProjDis" type="double" value="0.5" />
+    <param name="twoWayHeading" type="bool" value="true" />
+    <param name="frameRate" type="double" value="5.0" />
+    <param name="checkTravArea" type="bool" value="true" />
+    <param name="waypointTravAdj" type="bool" value="true" />
+    <param name="adjDisThre" type="double" value="5.0" />
+    <param name="searchDisThre" type="double" value="2.5" />
+    <param name="travDisThre" type="double" value="0.1" />
+    <param name="extDis" type="double" value="0.2" />
+    <param name="yawConfig" type="int" value="-1" /> <!-- -1: reach waypoint and stop, 0: waypoint yaw, 1: yaw to waypoint, 2: yaw sideway to waypoint -->
+    <param name="speed" type="double" value="1.0" />
+    <param name="sendSpeed" type="bool" value="true" />
+    <param name="sendBoundary" type="bool" value="false" />
+  </node>
+
+</launch>

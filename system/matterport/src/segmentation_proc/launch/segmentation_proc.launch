@@ -1,0 +1,11 @@
+<launch>
+
+  <node pkg="segmentation_proc" type="segmentationProc" name="segmentationProc" output="screen">
+    <param name="seg_file_dir" type="string" value="$(find vehicle_simulator)/mesh/matterport/segmentations/matterport.house" />
+    <param name="labelType" type="string" value="base" /> <!--Set to "base" to use raw labels and "40" to use nyu40 labels-->
+    <param name="broadcastHoriThre" type="double" value="2.0" />
+    <param name="broadcastVertThre" type="double" value="1.0" />
+    <param name="broadcastRate" type="double" value="5.0" />
+  </node>
+
+</launch>
