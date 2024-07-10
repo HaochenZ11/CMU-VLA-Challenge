@@ -4,6 +4,7 @@
 [Introduction](#introduction)  
 [Objective](#objective)  
 [Task Specification](#task-specification)
+
 [Setting up](#setting-up)
 - [Challenge Scenes](#challenge-scenes)
 - [Challenge Questions](#challenge-questions)
@@ -11,7 +12,8 @@
 - [Simulator](#simulator)
 - [Object-Referential Dataset](#object-referential-language-dataset)
 
-[Real-Robot Challenge](#real-robot-challenge-(2025))
+[Real-Robot Challenge](#real-robot-challenge-2025)
+[Real-Robot Data](#real-robot-data)
 
 ## Introduction
 The CMU Vision-Language-Autonomy Challenge leverages computer vision and natural language understanding in navigation autonomy. The challenge aims at pushing the limit of embodied AI in real environments and on real robots - providing a robot platform and a working autonomy system to bring everybody's work a step closer to real-world deployment. The challenge provides a real-robot system equipped with a 3D lidar and a 360 camera. The system has base autonomy onboard that can estimate the sensor pose, analyze the terrain, avoid collisions, and navigate to waypoints. Teams will set up software on the robot's onboard computer to interface with the system and navigate the robot. For 2024, the challenge will be done in a custom simulation environment and move to the real-robot system the following year. 
@@ -119,7 +121,7 @@ To help with the subtask of referential object-grounding, a dataset containing 7
 
 Starting in 2025, the challenge evaluation will be done on the real-robot system instead of in simulation. In the challenge, the system provides onboard data as described below and takes waypoints in the same way as the simulator. The software developed in the AI module is only able to send waypoints to explore the scene. Manually sending waypoints or teleoperation is not allowed. Each team will remotely login to the robot's onboard computer (16x i9 CPU cores, 32GB RAM, RTX 4090 GPU), and set up software in a Docker container that interfaces with the autonomy modules. The Docker container is used by each team alone and not shared with other teams. We will schedule multiple time slots for each team to set up the software and test the robot. The teams can also record data on the robot's onboard computer and this data will be made available to participants afterwards.
 
-### Real-Robot Dataset
+### Real-Robot Data
 
 Example scene data collected from the real system is provided [here](https://drive.google.com/drive/folders/1M0_UkY7aDIEpoVK6GdWzg45v-HX2UMSd?usp=drive_link) with some differences in the object layout. The dataset contains ROS messages provided by the system in the same format as during the challenge. An RVIZ configuration file is also provided for viewing the data. A ground truth map with object segmentation and IDs and an object list with bounding boxes and labels are also provided. The ground truth map and the object list are only available in the datasets but not at the challenge. The camera pose (camera frame) with respect to the lidar (sensor frame) can be found in the text file included.
 
