@@ -13,7 +13,7 @@
 - [Object-Referential Dataset](#object-referential-language-dataset)
 
 [Real-Robot Challenge](#real-robot-challenge-2025)
-[Real-Robot Data](#real-robot-data)
+- [Real-Robot Data](#real-robot-data)
 
 ## Introduction
 The CMU Vision-Language-Autonomy Challenge leverages computer vision and natural language understanding in navigation autonomy. The challenge aims at pushing the limit of embodied AI in real environments and on real robots - providing a robot platform and a working autonomy system to bring everybody's work a step closer to real-world deployment. The challenge provides a real-robot system equipped with a 3D lidar and a 360 camera. The system has base autonomy onboard that can estimate the sensor pose, analyze the terrain, avoid collisions, and navigate to waypoints. Teams will set up software on the robot's onboard computer to interface with the system and navigate the robot. For 2024, the challenge will be done in a custom simulation environment and move to the real-robot system the following year. 
