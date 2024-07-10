@@ -5,13 +5,8 @@ The repository provides the base navigation system for the [CMU Vision-Language-
 sudo apt update
 sudo apt install libusb-dev python-yaml python-is-python3
 ```
-Clone the open-source repository.
+In a terminal, go inside this folder and checkout the 'noetic' branch, and compile.
 ```
-git clone https://github.com/jizhang-cmu/cmu_vla_challenge_unity.git
-```
-In a terminal, go to the folder, checkout the 'noetic' branch, and compile.
-```
-cd cmu_vla_challenge_unity
 git checkout noetic
 catkin_make
 ```
@@ -34,7 +29,7 @@ mesh/<br>
 
 ## System Launch
 
-In a terminal, go to the 'cmu_vla_challenge_unity' folder and bring up the system.
+In a terminal, go inside this folder and bring up the system.
 ```
 ./system_bring_up.sh
 ```
@@ -52,23 +47,23 @@ Users can also use the control panel to navigate the vehicle by clicking inside 
   <img src="img/ps3_controller.jpg" alt="PS3 Controller" width="45%"/>
 </p>
 
-**Troubleshooting** - If the system does not launch correctly, users can launch the Unity environment and the autonomy system in two separate terminals. In a terminal, go to the 'cmu_vla_challange_unity' folder and launch the Unity environment.
+**Troubleshooting** - If the system does not launch correctly, users can launch the Unity environment and the autonomy system in two separate terminals. In a terminal, go inside this folder and launch the Unity environment.
 ```
 ./src/vehicle_simulator/mesh/unity/environment/Model.x86_64
 ```
-In a second terminal, go to the 'cmu_vla_challange_unity' folder and bring up the autonomy system.
+In a second terminal, go inside this main folder and bring up the autonomy system.
 
 ```
 source devel/setup.sh  
 roslaunch vehicle_simulator system_unity.launch 
 ```
 
-## Credits
+## References
 
 [ROS-TCP-Endpoint](https://github.com/Unity-Technologies/ROS-TCP-Endpoint) and [joystick_drivers](http://wiki.ros.org/joystick_drivers) packages are from open-source releases.
 
 ## Relevant Links
 
-The repository is based on [Autonomous Exploration Development Environment](https://www.cmu-exploration.com).
+The code is based on [Autonomous Exploration Development Environment](https://www.cmu-exploration.com).
 
 [Far Planner](https://github.com/MichaelFYang/far_planner): a visibility graph-based route planner.

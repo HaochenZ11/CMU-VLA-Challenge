@@ -5,13 +5,8 @@ The repository provides the base navigation system for the [CMU Vision-Language-
 sudo apt update
 sudo apt install libusb-dev
 ```
-Clone the open-source repository.
+In a terminal, go inside this folder and compile.
 ```
-git clone https://github.com/jizhang-cmu/cmu_vla_challenge_matterport.git
-```
-In a terminal, go to the folder and compile.
-```
-cd cmu_vla_challenge_matterport
 catkin_make
 ```
 Install [Anaconda](https://www.anaconda.com/download) and accept the default installation directory in the home folder. Then, in a terminal, create a conda environment named 'habitat' using the provided spec file.
@@ -90,7 +85,7 @@ mesh/<br>
 
 ## System Launch
 
-In a terminal, go to the 'cmu_vla_challange_matterport' folder and bring up the system.
+In a terminal, go inside this folder and bring up the system.
 ```
 ./system_bring_up.sh
 ```
@@ -108,18 +103,18 @@ Users can also use the control panel to navigate the vehicle by clicking inside 
   <img src="img/ps3_controller.jpg" alt="PS3 Controller" width="45%"/>
 </p>
 
-**Troubleshooting** - If the system does not launch correctly, open the 'system_bring_up.sh' file in a text editor and check if the paths defined at the top, i.e. CONDA_DIR, CONDA_BIN_DIR, CONDA_SETUP_FILE, CONDA_PROFILE_FILE, match the Anaconda installation on your computer. If the system is still not working, users can launch the autonomy system and AI Habiat in two separate terminals. In a terminal, go to the 'cmu_vla_challange_matterport' folder and bring up the autonomy system.
+**Troubleshooting** - If the system does not launch correctly, open the 'system_bring_up.sh' file in a text editor and check if the paths defined at the top, i.e. CONDA_DIR, CONDA_BIN_DIR, CONDA_SETUP_FILE, CONDA_PROFILE_FILE, match the Anaconda installation on your computer. If the system is still not working, users can launch the autonomy system and AI Habiat in two separate terminals. In a terminal, go inside this folder and bring up the autonomy system.
 ```
 source devel/setup.sh  
 roslaunch vehicle_simulator system_matterport.launch 
 ```
-In a second terminal, go to the 'cmu_vla_challange_matterport/src/segmentation_proc/scripts' folder and run AI Habitat.
+In a second terminal, go to the '/src/segmentation_proc/scripts' folder and run AI Habitat.
 ```
 conda activate habitat
 python3 ./habitat_online_360_v0.2.1.py
 ```
 
-## Credits
+## References
 
 [velodyne_simulator](http://wiki.ros.org/velodyne_simulator) and [joystick_drivers](http://wiki.ros.org/joystick_drivers) packages are from open-source releases.
 
