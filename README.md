@@ -15,6 +15,12 @@
 [Real-Robot Challenge](#real-robot-challenge-2025)
 - [Real-Robot Data](#real-robot-data)
 
+[Submission](#submission)
+
+[Evaluation](#evaluation)
+
+[Challenge FAQ](#challenge-faq)
+
 ## Introduction
 The CMU Vision-Language-Autonomy Challenge leverages computer vision and natural language understanding in navigation autonomy. The challenge aims at pushing the limit of embodied AI in real environments and on real robots - providing a robot platform and a working autonomy system to bring everybody's work a step closer to real-world deployment. The challenge provides a real-robot system equipped with a 3D lidar and a 360 camera. The system has base autonomy onboard that can estimate the sensor pose, analyze the terrain, avoid collisions, and navigate to waypoints. Teams will set up software on the robot's onboard computer to interface with the system and navigate the robot. For 2024, the challenge will be done in a custom simulation environment and move to the real-robot system the following year. 
 
@@ -113,9 +119,9 @@ In addition to the simulation system described above based on Unity, a second si
 
 Note that the simulation system provided a broader scope of data than the actual challenge but the data can be used to help prepare the AI module. During the challenge, only data listed above in [System](#system) is provided, matching the data onboard the real robot.
 
-### Object-Referential Dataset
+### Object-Referential Dataset (VLA-3D)
 
-To help with the subtask of referential object-grounding, a dataset containing 7.6K indoor 3D scenes with over 11K regions and 9M+ statements is provided. The dataset includes processed scene point clouds, object and region labels, a scene graph of semantic relations, and generated language statements for each scene, including the 15 training scenes in Unity. For access to the data and more details on the format, please see our [GitHub repository](https://github.com/HaochenZ11/VLA-3D).
+To help with the subtask of referential object-grounding, the VLA-3D dataset containing 7.6K indoor 3D scenes with over 11K regions and 9M+ statements is provided. The dataset includes processed scene point clouds, object and region labels, a scene graph of semantic relations, and generated language statements for each 3D scene from a diverse set of data sources and includes the 15 training scenes in Unity. For access to the data and more details on the format, please see our [VLA-3D repository](https://github.com/HaochenZ11/VLA-3D).
 
 ## Real-Robot Challenge (2025)
 
@@ -124,6 +130,24 @@ Starting in 2025, the challenge evaluation will be done on the real-robot system
 ### Real-Robot Data
 
 Example scene data collected from the real system is provided [here](https://drive.google.com/drive/folders/1M0_UkY7aDIEpoVK6GdWzg45v-HX2UMSd?usp=drive_link) with some differences in the object layout. The dataset contains ROS messages provided by the system in the same format as during the challenge. An RVIZ configuration file is also provided for viewing the data. A ground truth map with object segmentation and IDs and an object list with bounding boxes and labels are also provided. The ground truth map and the object list are only available in the datasets but not at the challenge. The camera pose (camera frame) with respect to the lidar (sensor frame) can be found in the text file included.
+
+
+## Submission
+Follow the instructions under the [docker](docker/) folder to commit, tag, and push your docker image to Docker Hub and make it *public*. If it helps, you may remove the source code and only leave the executable. Prior to submitting, please download the docker image and test it with the simulator as the submission will be evaluated in the same way. Please also make sure that waypoints and visualization markers sent match the types in the example dummy model and are on the same ROS topics so that the base navigation system can correctly receive them.
+
+After pushing the docker image, please fill out the [Submission Form](https://forms.gle/KsjYNaTzSTvvPafC9) with a link to the DockerHub repo.
+
+## Evaluation
+The submitted docker image will be pulled and evaluated with 3 Unity environment models which have been held from the released data. For each scene, 5 questions similar to those provided will be tested and a score will be given to each response. The question types will be scored as follows:
+- **Numerical** (/1): Exact number must be printed in the terminal. Score of 0 or 1.
+- **Object Reference** (/1): ROS visualization marker must be sent that bounds the object with the center point of the marker within some X-Y radius of the ground-truth object's center point. Score of 0 or 1.
+- **Instruction-Following** (/3): A series of waypoints sent that guides the vehicle. A score will be calculated as the total points gained from the trajectory minus a penalty, where the penalty is summated over *n* trajectory points. Points are gained from reaching the final destination and following path constraints specified in the command. Penalties result from deviation from reference trajectory and length of the trajectory taken. Score between 0 and 3. 
+
+The scores from all questions across the 3 test scenes will be totaled for each team's final score.
+
+
+## Challenge FAQ
+Any questions regarding the challenge can be emailed to haochen4@andrew.cmu.edu or any of the other challenge organizers. Frequently asked questions will be posted here.
 
 ## References
 
