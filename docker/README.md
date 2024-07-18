@@ -65,7 +65,7 @@ Sat Dec 16 17:27:17 2023
 +-----------------------------------------------------------------------------+
 ```
 
-## Prepare Docker Image
+## Run and Modify Docker Image
 
 Allow remote X connection:
 ```
@@ -77,7 +77,7 @@ For computers **without a Nvidia GPU**, compose the Docker image and start the c
 ```
 docker compose -f compose.yml up --build -d
 ```
-For computers **with Nvidia GPUs**, use the 'compose_gpu.yml' file instead (creating the same Docker image, but starting the container with GPU access):
+For computers **with Nvidia GPUs**, use the `compose_gpu.yml` file instead (creating the same Docker image, but starting the container with GPU access):
 ```
 docker compose -f compose_gpu.yml up --build -d
 ```
@@ -85,10 +85,17 @@ Access the running container:
 ```
 docker exec -it ubuntu20_ros bash
 ```
-Now, you can launch the base system. In the terminal, the system will ask you to type in the question. Type in any words and enter, the vehicle will navigate and reach two waypoints sequentially. A visualization marker is also displayed for object reference. If you use the control panel to navigate the vehicle, to resume waypoint navigation after, click the 'Resume Navigation to Goal' button. You can further modify the contents in the '/home/docker/ai_module' folder and replace the 'dummy_vlm' package with yours for the challenge.
+Now, you can launch the base simulator system. In the terminal, the system will ask you to type in the question. As the system is running with a "dummy model" by default, it simply parses the type of statement and returns the appropriate response type with arbitrary values. The behavior of the dummy model for different language inputs is as follows: 
+- "how many...": prints out a number in terminal
+- "find the...": highlights the object with a visualization marker and navigates to it
+- anything else: sends a series of fixed waypoints
+
+If you use the control panel to navigate the vehicle, to resume waypoint navigation afterwards, click the 'Resume Navigation to Goal' button. The contents under the `/home/docker/ai_module` folder can be modified and the `dummy_vlm` package replaced with yours.
 ```
 /home/docker/start_cmu_vla_challenge.sh
 ```
+
+## Push Docker Image
 After you are done with the modifications, push the image to [Docker Hub](https://hub.docker.com/). To do this, create a Docker Hub account and login to the account from another terminal (not the terminal accessing the container):
 ```
 docker login -u [DOCKERHUB_USERNAME]
@@ -119,7 +126,7 @@ docker run -it --rm --privileged -e DISPLAY -e QT_X11_NO_MITSHM=1 \
   -v /dev/input:/dev/input -v /dev/bus/usb:/dev/bus/usb:rw -v /home/$USER:/home/$USER:rw \
   --network=host [IMAGE_ID]
 ```
-For computers **with Nvidia GPUs**, start the container with '--gpus all' flags:
+For computers **with Nvidia GPUs**, start the container with `--gpus all` flags:
 ```
 docker run --gpus all -it --rm --privileged -e DISPLAY -e QT_X11_NO_MITSHM=1 \
   -e XAUTHORITY=/tmp/.docker.xauth -v /tmp/.X11-unix:/tmp/.X11-unix:rw -v /etc/localtime:/etc/localtime:ro \
@@ -133,15 +140,15 @@ Launch the simulation system:
 
 ## Use Different Base Image
 
-To use a different base image, e.g. with CUDA pre-installation, you may use the provided 'Dockerfile_base' file. First, rename 'Dockerfile' to something else and rename 'Dockerfile_base' to 'Dockerfile'. 
+To use a different base image, e.g. with CUDA pre-installation, you may use the provided `Dockerfile_base` file. First, rename `Dockerfile` to something else and rename 'Dockerfile_base' to `Dockerfile`. 
 
-Edit the base image name on the first line of the file and point it to the image you would like to use. Then, follow instructions in the [Prepare Docker Image](#prepare-docker-image) section to start the container and access it. 
+Edit the base image name on the first line of the file and point it to the image you would like to use. Then, follow instructions in the [Run and Modify Docker Image](#run-and-modify-docker-image) section above to start the container and access it. 
 
 Copy the `cmu_vla_challenge_unity` and `ai_module` folders and the `start_cmu_vla_challenge.sh` file from the `/home/docker` folder (right after accessing the container) in the provided image to the new image. 
 
-In a terminal, go to the `cmu_vla_challenge_unity` and `ai_module` folders to recompile the repositories by removing the `build` and `devel` folders followed by the `catkin_make` command. Note that the containers are started with access to the '/home/username' folder on the computer for you to copy files to and from the images.
+In a terminal, go to the `cmu_vla_challenge_unity` and `ai_module` folders to recompile the repositories by removing the `build` and `devel` folders followed by the `catkin_make` command. Note that the containers are started with access to the `/home/username` folder on the computer for you to copy files to and from the images.
 
-## Other Useful Commands
+## Other Useful Docker Commands
 
 Check running containers:
 ```

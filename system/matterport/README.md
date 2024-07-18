@@ -1,46 +1,50 @@
-## Repository Setup
+## Set Up
 
-The repository provides the base navigation system for the [CMU Vision-Language-Autonomy Challenge](https://www.ai-meets-autonomy.com/cmu-vla-challenge). The system is integrated with [Matterport3D](https://niessner.github.io/Matterport) photorealistic environment models and [AI Habitat](https://github.com/facebookresearch/habitat-sim) engine. The repository has been tested in Ubuntu 20.04 with [ROS Noetic](http://wiki.ros.org/noetic/Installation). Install dependencies with the command lines below.
+This folder provides the base navigation system for the [CMU Vision-Language-Autonomy Challenge](https://www.ai-meets-autonomy.com/cmu-vla-challenge). The system is integrated with [Matterport3D](https://niessner.github.io/Matterport) photorealistic environment models and [AI Habitat](https://github.com/facebookresearch/habitat-sim) engine. The code has been tested in Ubuntu 20.04 with [ROS Noetic](http://wiki.ros.org/noetic/Installation). Install dependencies with the command lines below:
 ```
 sudo apt update
 sudo apt install libusb-dev
 ```
-In a terminal, go inside this folder and compile.
+In a terminal, go inside this folder and compile:
 ```
 catkin_make
 ```
-Install [Anaconda](https://www.anaconda.com/download) and accept the default installation directory in the home folder. Then, in a terminal, create a conda environment named 'habitat' using the provided spec file.
+Install [Anaconda](https://www.anaconda.com/download) and accept the default installation directory in the home folder. Then, in a terminal, create a conda environment named `habitat` using the provided spec file:
 ```
 conda create --name habitat --file habitat_spec_file.txt
 ```
-Alternatively, users can create the conda environment by following step-by-step instructions on the [AI Habitat website](https://github.com/facebookresearch/habitat-sim). Then, use the command lines below to install ROS Noetic in the conda environment in addition to the nominal ROS Noetic installation in native Ubuntu.
+Alternatively, users can create the conda environment by following step-by-step instructions on the [AI Habitat website](https://github.com/facebookresearch/habitat-sim). Then, use the command lines below to install ROS Noetic in the conda environment in addition to the nominal ROS Noetic installation in native Ubuntu:
 
 ```
 conda activate habitat
 conda install -c conda-forge -c robostack ros-noetic-desktop
 ```
 
-## Model Preparation
+## Data Preparation
 
-Go to [Matterport3D website](https://niessner.github.io/Matterport), sign Terms of Use, and download the environment models using the given download_mp.py script. Running the script requires Python 2.7.
+Go to [Matterport3D website](https://niessner.github.io/Matterport), sign the Terms of Use, and download the environment models using the given `download_mp.py` script after receiving access. Running the script requires Python 2.7:
 ```
 python2 download_mp.py -o data_download_dir
 ```
-Then, run the script again with '--task habitat' flag to download the files prepared for AI Habitat.
+Then, run the script again with the flag `--task habitat` to download the files prepared for AI Habitat:
 ```
 python2 download_mp.py --task habitat -o data_download_dir
 ```
-In the two downloads, find the matching environment ID. Here, we use ID:17DRP5sb8fy as an example, which is for the first downloaded environment model. In the first download, find the matterport_mesh.zip file, unzip it, rename the .obj file to a matterport.obj file, and copy all the files, i.e. .obj, .jpg, .mtl, to the 'src/vehicle_simulator/mesh/matterport/meshes' folder. You can also find a house_segmentations.zip file, extract the .ply file and rename it to a map.ply file, and copy it to the 'src/vehicle_simulator/mesh/matterport/pointclouds' folder.
+Find the ID of the scene to use. Here, we use ID `17DRP5sb8fy` as an example, which is for the first downloaded environment model. 
 
-In the second download, find the mp3d_habitat.zip file and extract the files with the same environment ID: 17DRP5sb8fy, then rename the files to matterport.glb, matterport.house, matterport.navmesh, matterport_semantic.ply, and copy the files to the 'src/vehicle_simulator/mesh/matterport/segmentations' folder.
+In the first download, find the `matterport_mesh.zip` file, unzip it, rename the .obj file to `matterport.obj`, and copy all the files, i.e. .obj, .jpg, .mtl, to the [src/vehicle_simulator/mesh/matterport/meshes](src/vehicle_simulator/mesh/matterport/meshes/) folder. 
 
-**Setting start point** - Matterport3D environment models often have multiple floors. We recommend using CloudCompare (installed with 'snap install cloudcompare') to choose the vehicle start point on the desired floor. Load the map.ply file renamed and copied from the first download. Then, use 'Tools->Segmentation->Cross Section' to crop off the ceiling and unused floors to reveal the start area.
+Find the `house_segmentations.zip` file, extract the .ply file and rename it to `map.ply`. Copy it to the [src/vehicle_simulator/mesh/matterport/pointclouds](src/vehicle_simulator/mesh/matterport/pointclouds/) folder.
+
+In the second download, find the `mp3d_habitat.zip` file and extract the files with the same scene ID, then rename the files to `matterport.glb, matterport.house, matterport.navmesh, matterport_semantic.ply`, and copy the files to the [src/vehicle_simulator/mesh/matterport/segmentations](src/vehicle_simulator/mesh/matterport/segmentations/) folder.
+
+**Setting start point** - Matterport3D environment models often have multiple floors. We recommend using CloudCompare (installed with `snap install cloudcompare`) to choose the vehicle start point on the desired floor. Load the renamed and copied map.ply file from the first download command. Then, use 'Tools > Segmentation > Cross Section' to crop off the ceiling and unused floors to reveal the start area.
 
 <p align="center">
   <img src="img/map_cropping.jpg" alt="Map Cropping" width="70%"/>
 </p>
 
-Use 'Tools/Point picking' to choose the start point and set the values of 'vehicleX', 'vehicleY', 'terrainZ' in 'src/vehicle_simulator/launch/system_matterport.launch' (default values are (0, 0, 0)). You can further save the cropped point cloud as a new map.ply file and replace the original file.
+Use 'Tools/Point picking' to choose the start point and set the values of 'vehicleX', 'vehicleY', 'terrainZ' in [src/vehicle_simulator/launch/system_matterport.launch](src/vehicle_simulator/launch/system_matterport.launch) (default values are (0, 0, 0)). You can further save the cropped point cloud as a new map.ply file and replace the original file.
 
 <p align="center">
   <img src="img/start_point.jpg" alt="Start Point" width="70%"/>
@@ -58,13 +62,13 @@ Use 'Edit->Segment' to extract the region that you want the vehicle to traverse.
   <img src="img/trav_area_selection.jpg" alt="Traversable Area Selection" width="70%"/>
 </p>
 
-Save the extracted point cloud to a traversable_area.ply file and copy it to the 'src/vehicle_simulator/mesh/matterport/pointclouds' folder. The image below shows our extracted point cloud. The traversable_area.ply file is used by the system to check the traversability of the waypoints. Users may skip this file and the system will accept waypoints placed anywhere in the environment.
+Save the extracted point cloud to a traversable_area.ply file and copy it to the ['src/vehicle_simulator/mesh/matterport/pointclouds](src/vehicle_simulator/mesh/matterport/pointclouds/) folder. The image below shows our extracted point cloud. The traversable_area.ply file is used by the system to check the traversability of the waypoints. Users may skip this file and the system will accept waypoints placed anywhere in the environment.
 
 <p align="center">
   <img src="img/trav_area_saved.jpg" alt="Traversable Area Saved" width="70%"/>
 </p>
 
-The prepared environment model files should look like below.
+The prepared environment model files should look like the following:
 
 mesh/<br>
 &nbsp;&nbsp;&nbsp;&nbsp;matterport/<br>
@@ -85,7 +89,7 @@ mesh/<br>
 
 ## System Launch
 
-In a terminal, go inside this folder and bring up the system.
+In a terminal, go inside this folder and bring up the system:
 ```
 ./system_bring_up.sh
 ```
@@ -95,7 +99,9 @@ Users should see data showing up in RVIZ. Click 'Panels->Display' and check the 
   <img src="img/rviz_full.jpg" alt="RVIZ Full" width="80%"/>
 </p>
 
-Users can also use the control panel to navigate the vehicle by clicking inside the black box. The system will switch to *smart joystick* mode - the vehicle tries to follow the joystick command and avoid collisions at the same time. To resume waypoint navigation, press the 'Resume Navigation to Goal' button. Note that users can use a PS3/4 or Xbox controller with a USB or Bluetooth interface instead of the virtual joystick (If using the Xbox Wireless USB Adapter, please install [xow](https://github.com/medusalix/xow)). Users can use the right joystick on the controller to navigate the vehicle. Holding the obstacle-check button cancels obstacle checking and clicking the clear-terrain-map button reinitializes the terrain map. To resume waypoint navigation, hold the mode-switch button and at the same time push the right joystick. This way, the right joystick gives the speed. If only holding the mode-switch button, the system will use the default speed.
+Users can also use the control panel to navigate the vehicle by clicking inside the black box. The system will switch to *smart joystick* mode - the vehicle tries to follow the joystick command and avoid collisions at the same time. To resume waypoint navigation, press the 'Resume Navigation to Goal' button. 
+
+**Joystick Navigation** - Note that users can use a PS3/4 or Xbox controller with a USB or Bluetooth interface instead of the virtual joystick (If using the Xbox Wireless USB Adapter, please install [xow](https://github.com/medusalix/xow)). Users can use the right joystick on the controller to navigate the vehicle. Holding the obstacle-check button cancels obstacle checking and clicking the clear-terrain-map button reinitializes the terrain map. To resume waypoint navigation, hold the mode-switch button and at the same time push the right joystick. Doing so will allow the right joystick to control the speed. If only holding the mode-switch button, the system will use the default speed.
 
 <p align="center">
   <img src="img/rviz_control_panel.jpg" alt="RVIZ Control Panel" width="30%"/>
@@ -103,12 +109,12 @@ Users can also use the control panel to navigate the vehicle by clicking inside 
   <img src="img/ps3_controller.jpg" alt="PS3 Controller" width="45%"/>
 </p>
 
-**Troubleshooting** - If the system does not launch correctly, open the 'system_bring_up.sh' file in a text editor and check if the paths defined at the top, i.e. CONDA_DIR, CONDA_BIN_DIR, CONDA_SETUP_FILE, CONDA_PROFILE_FILE, match the Anaconda installation on your computer. If the system is still not working, users can launch the autonomy system and AI Habiat in two separate terminals. In a terminal, go inside this folder and bring up the autonomy system.
+**Troubleshooting** - If the system does not launch correctly, open the `system_bring_up.sh` file in a text editor and check if the paths defined at the top, i.e. CONDA_DIR, CONDA_BIN_DIR, CONDA_SETUP_FILE, CONDA_PROFILE_FILE, match the Anaconda installation on your computer. If the system is still not working, users can launch the autonomy system and AI Habitat in two separate terminals. In a terminal, go inside this folder and bring up the autonomy system:
 ```
-source devel/setup.sh  
-roslaunch vehicle_simulator system_matterport.launch 
+source devel/setup.sh 
+roslaunch vehicle_simulator system_matterport.launch
 ```
-In a second terminal, go to the '/src/segmentation_proc/scripts' folder and run AI Habitat.
+In a second terminal, go to the [/src/segmentation_proc/scripts](src/segmentation_proc/scripts/) folder and run AI Habitat:
 ```
 conda activate habitat
 python3 ./habitat_online_360_v0.2.1.py
@@ -122,6 +128,4 @@ A modified version of open-source [image_sampler](https://github.com/castacks/im
 
 ## Relevant Links
 
-The repository is based on [Autonomous Exploration Development Environment](https://www.cmu-exploration.com).
-
-[Far Planner](https://github.com/MichaelFYang/far_planner): a visibility graph-based route planner.
+The code in this folder is based on [Autonomous Exploration Development Environment](https://www.cmu-exploration.com). A visibility graph-based route planner can be found here: [Far Planner](https://github.com/MichaelFYang/far_planner).

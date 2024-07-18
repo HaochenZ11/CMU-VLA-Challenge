@@ -1,16 +1,16 @@
-## Repository Setup
+## Set Up
 
-The repository provides the base navigation system for the [CMU Vision-Language-Autonomy Challenge](https://www.ai-meets-autonomy.com/cmu-vla-challenge). The system is integrated with [Unity](https://unity.com) environment models. The repository has been tested in Ubuntu 20.04 with [ROS Noetic](http://wiki.ros.org/noetic/Installation). Install dependencies with the command lines below.
+This folder provides the base navigation system for the [CMU Vision-Language-Autonomy Challenge](https://www.ai-meets-autonomy.com/cmu-vla-challenge). The system is integrated with [Unity](https://unity.com) environment models. The code has been tested in Ubuntu 20.04 with [ROS Noetic](http://wiki.ros.org/noetic/Installation). Install dependencies with the command lines below:
 ```
 sudo apt update
 sudo apt install libusb-dev python-yaml python-is-python3
 ```
-In a terminal, go inside this folder and checkout the 'noetic' branch, and compile.
+In a terminal, go inside this folder and checkout the 'noetic' branch, and compile:
 ```
 git checkout noetic
 catkin_make
 ```
-Download any of our [Unity environment models](https://drive.google.com/drive/folders/1bmxdT6Oxzt0_0tohye2br7gqTnkMaq20?usp=share_link) and unzip the files to the 'src/vehicle_simulator/mesh/unity' folder. The environment model files should look like below. Note that the 'AssetList.csv' file is generated upon start of the system.
+Download any of our [Unity environment models](https://drive.google.com/drive/folders/1bmxdT6Oxzt0_0tohye2br7gqTnkMaq20?usp=share_link) and unzip the files to the [src/vehicle_simulator/mesh/unity](src/vehicle_simulator/mesh/unity/) folder. The environment model files should look like below. Note that the `AssetList.csv` file is generated upon start of the system.
 
 mesh/<br>
 &nbsp;&nbsp;&nbsp;&nbsp;unity/<br>
@@ -29,7 +29,7 @@ mesh/<br>
 
 ## System Launch
 
-In a terminal, go inside this folder and bring up the system.
+In a terminal, go inside this folder and bring up the system:
 ```
 ./system_bring_up.sh
 ```
@@ -39,7 +39,9 @@ Users should see data showing up in RVIZ. Click 'Panels->Display' and check the 
   <img src="img/rviz_full.jpg" alt="RVIZ Full" width="80%"/>
 </p>
 
-Users can also use the control panel to navigate the vehicle by clicking inside the black box. The system will switch to *smart joystick* mode - the vehicle tries to follow the joystick command and avoid collisions at the same time. To resume waypoint navigation, press the 'Resume Navigation to Goal' button. Note that users can use a PS3/4 or Xbox controller with a USB or Bluetooth interface instead of the virtual joystick (If using the Xbox Wireless USB Adapter, please install [xow](https://github.com/medusalix/xow)). Users can use the right joystick on the controller to navigate the vehicle. Holding the obstacle-check button cancels obstacle checking and clicking the clear-terrain-map button reinitializes the terrain map. To resume waypoint navigation, hold the mode-switch button and at the same time push the right joystick. This way, the right joystick gives the speed. If only holding the mode-switch button, the system will use the default speed.
+Users can also use the control panel to navigate the vehicle by clicking inside the black box. The system will switch to *smart joystick* mode - the vehicle tries to follow the joystick command and avoid collisions at the same time. To resume waypoint navigation, press the 'Resume Navigation to Goal' button. 
+
+**Joystick Navigation** - Note that users can use a PS3/4 or Xbox controller with a USB or Bluetooth interface instead of the virtual joystick (If using the Xbox Wireless USB Adapter, please install [xow](https://github.com/medusalix/xow)). Users can use the right joystick on the controller to navigate the vehicle. Holding the obstacle-check button cancels obstacle checking and clicking the clear-terrain-map button reinitializes the terrain map. To resume waypoint navigation, hold the mode-switch button and at the same time push the right joystick. Doing so will allow the right joystick to control the speed. If only holding the mode-switch button, the system will use the default speed.
 
 <p align="center">
   <img src="img/rviz_control_panel.jpg" alt="RVIZ Control Panel" width="30%"/>
@@ -47,11 +49,11 @@ Users can also use the control panel to navigate the vehicle by clicking inside 
   <img src="img/ps3_controller.jpg" alt="PS3 Controller" width="45%"/>
 </p>
 
-**Troubleshooting** - If the system does not launch correctly, users can launch the Unity environment and the autonomy system in two separate terminals. In a terminal, go inside this folder and launch the Unity environment.
+**Troubleshooting** - If the system does not launch correctly, users can launch the Unity environment and the autonomy system in two separate terminals. In a terminal, go inside this folder and launch the Unity environment:
 ```
 ./src/vehicle_simulator/mesh/unity/environment/Model.x86_64
 ```
-In a second terminal, go inside this main folder and bring up the autonomy system.
+In a second terminal, go inside this main folder and bring up the autonomy system:
 
 ```
 source devel/setup.sh  
@@ -64,6 +66,4 @@ roslaunch vehicle_simulator system_unity.launch 
 
 ## Relevant Links
 
-The code is based on [Autonomous Exploration Development Environment](https://www.cmu-exploration.com).
-
-[Far Planner](https://github.com/MichaelFYang/far_planner): a visibility graph-based route planner.
+The code in this folder is based on [Autonomous Exploration Development Environment](https://www.cmu-exploration.com). A visibility graph-based route planner can be found here: [Far Planner](https://github.com/MichaelFYang/far_planner).

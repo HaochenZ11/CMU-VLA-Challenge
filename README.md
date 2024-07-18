@@ -5,12 +5,12 @@
 [Objective](#objective)  
 [Task Specification](#task-specification)
 
-[Setting up](#setting-up)
+[Setting Up](#setting-up)
 - [Challenge Scenes](#challenge-scenes)
 - [Challenge Questions](#challenge-questions)
 - [System](#system)
 - [Simulator](#simulator)
-- [Object-Referential Dataset](#object-referential-language-dataset)
+- [Object-Referential Dataset](#object-referential-dataset-vla-3d)
 
 [Real-Robot Challenge](#real-robot-challenge-2025)
 - [Real-Robot Data](#real-robot-data)
@@ -83,7 +83,7 @@ Our system runs on Ubuntu 20.04 and uses ROS Noetic in both simulation and onboa
 
 The system has two parts both in the home folder of the docker images:
 - The base navigation system is in the [unity/](system/unity/) folder. For the base navigation system, you may change the scene used by placing it in the [simulator mesh](system/unity/src/vehicle_simulator/mesh/unity/) directory.
-- The vision-language model is in the `AI_module` folder. The model currently in the folder is a dummy model that produces random responses and teams are expected to come up with a model to replace this one. 
+- The vision-language model should be in the `AI_module` folder. The model currently in the folder is a "dummy model" that produces arbitrary examples of the different types of output responses. **Teams are expected to come up with a model to replace this one.**
 
 Launching the system startup script `start_cmu_vla_challenge.sh` in the home folder, the dummy model will output either a number to terminal, send bounding box visualization markers for object reference, or waypoints to guide vehicle navigation. The two types of messages are listed below. To integrate the a model with the system, please modify the system startup script.
 - Visualization marker: ROS Marker message on topic name: `/selected_object_marker`, containing object label and bounding box of the selected object.
