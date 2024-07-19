@@ -48,7 +48,7 @@ Examples:
 
 **Object Reference**
 
-Object reference statements asks the system to find a certain object located in the scene that is referred to by spatial relations and/or attributes. The response is expected to be a bounding box around the object and there exists only one correct answer in the scene.
+Object reference statements asks the system to find a certain object located in the scene that is referred to by spatial relations and/or attributes. The response is expected to be a bounding box around the object and there exists only one correct answer in the scene (the referred object is unique). The center point of the bounding box marker will be used as a waypoint to navigate the robot system.
 
 Examples:
 
@@ -70,7 +70,7 @@ Examples:
 ## Setting Up
 
 ### Challenge Scenes
-A total of 18 Unity scenes are used for the challenge. 15 scenes are provided for model development while 3 are held out for testing. The majority of these scenes are single rooms while a few are multi-room buildings.  A set of the training environment models can be downloaded from [here](https://drive.google.com/drive/folders/1bmxdT6Oxzt0_0tohye2br7gqTnkMaq20?usp=share_link). For all of the 15 training scenes, we also provide a processed point cloud of the scene, object and region information including color and size attributes, and referential language statements (please see [Object-Referential Dataset](#object-referential-dataset) for more details). 
+A total of 18 Unity scenes are used for the challenge. 15 scenes are provided for model development while 3 are held out for testing. The majority of these scenes are single rooms while a few are multi-room buildings.  A set of the training environment models can be downloaded from [here](https://drive.google.com/drive/folders/1bmxdT6Oxzt0_0tohye2br7gqTnkMaq20?usp=share_link). For all of the 15 training scenes, we also provide a processed point cloud of the scene, object and region information including color and size attributes, and referential language statements (please see [Object-Referential Dataset](#object-referential-dataset-vla-3d) for more details). 
 
 ![image](figures/scenes.png)
 
@@ -81,9 +81,9 @@ A set of challenge questions for each Unity scene is provided in the pdf files f
 
 Our system runs on Ubuntu 20.04 and uses ROS Noetic in both simulation and onboard the real robot. Follow the instructions in the [docker/](docker/) folder to try the simulator by pulling the docker image provided and launching the system.
 
-The system has two parts both in the home folder of the docker images:
-- The base navigation system is in the [unity/](system/unity/) folder. For the base navigation system, you may change the scene used by placing it in the [simulator mesh](system/unity/src/vehicle_simulator/mesh/unity/) directory.
-- The vision-language model should be in the `AI_module` folder. The model currently in the folder is a "dummy model" that produces arbitrary examples of the different types of output responses. **Teams are expected to come up with a model to replace this one.**
+The system uses Unity environments by default and has two parts both in the home folder of the docker image:
+- The base navigation system is in the `cmu_vla_challenge_unity` folder. For the base navigation system, you may change the scene used by placing it in the `src/vehicle_simulator/mesh/unity/` directory.
+- The vision-language model should be in the `ai_module` folder. The model currently in the folder under `src/` is a "dummy model" that produces arbitrary examples of the different types of output responses. **Teams are expected to come up with a model to replace this one.**
 
 Launching the system startup script `start_cmu_vla_challenge.sh` in the home folder, the dummy model will output either a number to terminal, send bounding box visualization markers for object reference, or waypoints to guide vehicle navigation. The two types of messages are listed below. To integrate the a model with the system, please modify the system startup script.
 - Visualization marker: ROS Marker message on topic name: `/selected_object_marker`, containing object label and bounding box of the selected object.
@@ -104,7 +104,7 @@ The system provides onboard data to the AI module as shown in the table below:
 
 #### System Inputs
 
-The system takes waypoints output from the AI module to navigate the robot. Waypoints located in the traversable area (listed above) are accepted directly, and waypoints out of the traversable area are adjusted and moved into the traversable area. The system also takes visualization markers output by the module to highlight selected objects.
+The system takes waypoints output from the AI module to navigate the robot. Waypoints located in the traversable area (listed above) are accepted directly, and waypoints out of the traversable area are adjusted and moved into the traversable area. The system also takes visualization markers output by the module to highlight selected objects. The table below lists the ROS topics to use. The waypoints should be used for Numerical and Instruction-Following questions while the visualization marker should be the output for the Object Reference questions.
 
 | Message | Description | ROS Topic Name |
 |-|-|-|
