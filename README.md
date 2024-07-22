@@ -111,9 +111,11 @@ The system takes waypoints output from the AI module to navigate the robot. Wayp
 | Waypoint with Heading | ROS Pose2D message with position and orientation. | `/way_point_with_heading` |
 | Selected Object Marker | ROS Marker message containing object label and bounding box of the selected object. | `/selected_object_marker` |
 
-The coordinate frames used by the system are shown below. The camera position (camera frame) with respect to the lidar (sensor frame) is measured based on a CAD model. The orientation is calibrated and the images are remapped to keep the camera frame and lidar frame aligned. 
+The coordinate frames used by the physical system are shown below. The camera position (camera frame) with respect to the lidar (sensor frame) is measured based on a CAD model. The orientation is calibrated and the images are remapped to keep the camera frame and lidar frame aligned. 
 
-![image](figures/system.png)
+<p align="center">
+  <img src="figures/system.png" alt="system" width="30%"/>
+</p>
 
 ### Simulator
 
