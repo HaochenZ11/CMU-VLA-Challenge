@@ -1,5 +1,7 @@
 # CMU VLA Challenge Docker Instructions
 
+Prior to following these instructions, make sure you have pulled this repo and copied it to your `/home/$USER` folder. If you want to use a different path, refer to the note under the section [Run and Modify Docker Image](#run-and-modify-docker-image).
+
 ## Install Docker
 
 ### 1) For computers without a Nvidia GPU
@@ -66,13 +68,18 @@ Sat Dec 16 17:27:17 2023
 ```
 
 ## Run and Modify Docker Image
-Move the entire `CMU-VLA-Challenge` repo to your local `/home/$USER` folder so that it is the working directory in the docker image. If you choose to place it elsewhere, you'll have to modify the `working_dir` parameter in the docker compose file(s) to match the path to your cloned repo.
+Move the entire `CMU-VLA-Challenge` repo to your local `/home/$USER` folder so that it is the working directory in the docker image.
+
+Note: If you choose to place it elsewhere, you'll have to modify the `working_dir` parameter in the docker compose file(s) to match the path to your cloned repo.
 
 Allow remote X connection:
 ```
 xhost +
 ```
 Go inside this folder in terminal.
+```
+cd CMU-VLA-Challenge/docker/
+```
 
 For computers **without a Nvidia GPU**, compose the Docker image and start the container:
 ```
@@ -86,11 +93,24 @@ Access the running container:
 ```
 docker exec -it ubuntu20_ros bash
 ```
-Now, you can launch the base simulator system. 
+
+## Launch Entire System
+Follow the instructions in the "Set Up" section of [system/unity](system/unity) to set up the simulator with Unity environment models. To test whether the simulator was correctly set up, go inside the folder and run:
 ```
-launch.sh
+./system_bring_up.sh
 ```
-In the terminal, the system will ask you to type in the question. As the system is running with a "dummy model" by default, it simply parses the type of statement and returns the appropriate response type with arbitrary values. The behavior of the dummy model for different language inputs is as follows: 
+Go inside the `ai_module` folder and compile and set up the package:
+```
+catkin_make
+source devel/setup.bash
+```
+The system can then be launched altogether with the script under the root repository directory: 
+```
+./launch.sh
+```
+You should see both the simulator launching in RViz and a terminal prompt asking for text input.
+
+The prompt will ask you to type in a question or command and the system will move accordingly. As the system is running with a "dummy model" by default, it simply parses the type of statement and returns the appropriate response type with arbitrary values. The behavior of the dummy model for different language inputs is as follows: 
 - "how many...": prints out a number in terminal
 - "find the...": highlights the object with a visualization marker and navigates to it
 - anything else: sends a series of fixed waypoints

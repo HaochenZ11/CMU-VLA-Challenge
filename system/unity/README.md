@@ -1,15 +1,17 @@
 ## Set Up
 
-This folder provides the base navigation system for the [CMU Vision-Language-Autonomy Challenge](https://www.ai-meets-autonomy.com/cmu-vla-challenge). The system is integrated with [Unity](https://unity.com) environment models. The code has been tested in Ubuntu 20.04 with [ROS Noetic](http://wiki.ros.org/noetic/Installation). Install dependencies with the command lines below:
+This folder provides the base navigation system for the [CMU Vision-Language-Autonomy Challenge](https://www.ai-meets-autonomy.com/cmu-vla-challenge). The system is integrated with [Unity](https://unity.com) environment models. The code has been tested in Ubuntu 20.04 with [ROS Noetic](http://wiki.ros.org/noetic/Installation). 
+
+Install dependencies with the command lines below:
 ```
 sudo apt update
 sudo apt install libusb-dev python-yaml python-is-python3
 ```
-In a terminal, go inside this folder and compile:
+In a terminal, go inside this folder and compile (this may take a few minutes):
 ```
 catkin_make
 ```
-Download any of our [Unity environment models](https://drive.google.com/drive/folders/1bmxdT6Oxzt0_0tohye2br7gqTnkMaq20?usp=share_link) and unzip the files to the [src/vehicle_simulator/mesh/unity](src/vehicle_simulator/mesh/unity/) folder. The environment model files should look like below. Note that the `AssetList.csv` file is generated upon start of the system.
+Download any of our [Unity environment models](https://drive.google.com/drive/folders/1bmxdT6Oxzt0_0tohye2br7gqTnkMaq20?usp=share_link), unzip the folder, and copy the files inside to the [src/vehicle_simulator/mesh/unity](src/vehicle_simulator/mesh/unity/) folder. The environment model files should follow the structure below. Note that the `AssetList.csv` file is generated upon start of the system and that only one given environment folder can be placed under the [src/vehicle_simulator/mesh/unity](src/vehicle_simulator/mesh/unity/) directory at a time.
 
 mesh/<br>
 &nbsp;&nbsp;&nbsp;&nbsp;unity/<br>
@@ -28,7 +30,7 @@ mesh/<br>
 
 ## System Launch
 
-In a terminal, go inside this folder and bring up the system:
+To launch just the simulator system by itself, go inside this folder and run:
 ```
 ./system_bring_up.sh
 ```
