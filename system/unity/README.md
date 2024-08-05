@@ -5,9 +5,8 @@ This folder provides the base navigation system for the [CMU Vision-Language-Aut
 sudo apt update
 sudo apt install libusb-dev python-yaml python-is-python3
 ```
-In a terminal, go inside this folder and checkout the 'noetic' branch, and compile:
+In a terminal, go inside this folder and compile:
 ```
-git checkout noetic
 catkin_make
 ```
 Download any of our [Unity environment models](https://drive.google.com/drive/folders/1bmxdT6Oxzt0_0tohye2br7gqTnkMaq20?usp=share_link) and unzip the files to the [src/vehicle_simulator/mesh/unity](src/vehicle_simulator/mesh/unity/) folder. The environment model files should look like below. Note that the `AssetList.csv` file is generated upon start of the system.

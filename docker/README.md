@@ -66,6 +66,7 @@ Sat Dec 16 17:27:17 2023
 ```
 
 ## Run and Modify Docker Image
+Move the entire `CMU-VLA-Challenge` repo to your local `/home/$USER` folder so that it is the working directory in the docker image. If you choose to place it elsewhere, you'll have to modify the `working_dir` parameter in the docker compose file(s) to match the path to your cloned repo.
 
 Allow remote X connection:
 ```
@@ -85,15 +86,17 @@ Access the running container:
 ```
 docker exec -it ubuntu20_ros bash
 ```
-Now, you can launch the base simulator system. In the terminal, the system will ask you to type in the question. As the system is running with a "dummy model" by default, it simply parses the type of statement and returns the appropriate response type with arbitrary values. The behavior of the dummy model for different language inputs is as follows: 
+Now, you can launch the base simulator system. 
+```
+launch.sh
+```
+In the terminal, the system will ask you to type in the question. As the system is running with a "dummy model" by default, it simply parses the type of statement and returns the appropriate response type with arbitrary values. The behavior of the dummy model for different language inputs is as follows: 
 - "how many...": prints out a number in terminal
 - "find the...": highlights the object with a visualization marker and navigates to it
 - anything else: sends a series of fixed waypoints
 
-If you use the control panel to navigate the vehicle, to resume waypoint navigation afterwards, click the 'Resume Navigation to Goal' button. The contents under the `/home/docker/ai_module` folder can be modified and the `dummy_vlm` package replaced with yours.
-```
-/home/docker/start_cmu_vla_challenge.sh
-```
+If you use the control panel to navigate the vehicle, to resume waypoint navigation afterwards, click the 'Resume Navigation to Goal' button. The contents under the [ai_module](../ai_module) folder can be modified and the [dummy_vlm](../ai_module/src/dummy_vlm/) package replaced with yours.
+
 
 ## Push Docker Image
 After you are done with the modifications, push the image to [Docker Hub](https://hub.docker.com/). To do this, create a Docker Hub account and login to the account from another terminal (not the terminal accessing the container):
@@ -133,9 +136,9 @@ docker run --gpus all -it --rm --privileged -e DISPLAY -e QT_X11_NO_MITSHM=1 \
   -v /dev/input:/dev/input -v /dev/bus/usb:/dev/bus/usb:rw -v /home/$USER:/home/$USER:rw \
   --network=host [IMAGE_ID]
 ```
-Launch the simulation system:
+Launch the overall system:
 ```
-/home/docker/start_cmu_vla_challenge.sh
+launch.sh
 ```
 
 ## Use Different Base Image
@@ -144,9 +147,9 @@ To use a different base image, e.g. with CUDA pre-installation, you may use the 
 
 Edit the base image name on the first line of the file and point it to the image you would like to use. Then, follow instructions in the [Run and Modify Docker Image](#run-and-modify-docker-image) section above to start the container and access it. 
 
-Copy the `cmu_vla_challenge_unity` and `ai_module` folders and the `start_cmu_vla_challenge.sh` file from the `/home/docker` folder (right after accessing the container) in the provided image to the new image. 
+Pull this `CMU-VLA-Challenge` repo and place it in your local `/home/$USER` folder as before.
 
-In a terminal, go to the `cmu_vla_challenge_unity` and `ai_module` folders to recompile the repositories by removing the `build` and `devel` folders followed by the `catkin_make` command. Note that the containers are started with access to the `/home/username` folder on the computer for you to copy files to and from the images.
+In a terminal, go to the [unity](../system/unity/) and [ai_module](../ai_module) folders to recompile the repositories by removing the `build` and `devel` folders followed by the `catkin_make` command. Note that the containers are started with access to your local `/home/$USER` folder for easy copy/paste to and from the images.
 
 ## Other Useful Docker Commands
 

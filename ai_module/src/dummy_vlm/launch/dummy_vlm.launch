@@ -1,0 +1,9 @@
+<launch>
+
+  <node pkg="dummy_vlm" type="dummyVLM" name="dummyVLM" output="screen" required="true">
+    <param name="waypoint_file_dir" type="string" value="$(find dummy_vlm)/data/waypoints.ply" />
+    <param name="object_list_file_dir" type="string" value="$(find dummy_vlm)/data/object_list.txt" />
+    <param name="waypointReachDis" type="double" value="1.0" />
+  </node>
+
+</launch>

@@ -68,6 +68,7 @@ Examples:
 
 
 ## Setting Up
+First, clone this repo and place it under your local `/home/$USER/` folder.
 
 ### Challenge Scenes
 A total of 18 Unity scenes are used for the challenge. 15 scenes are provided for model development while 3 are held out for testing. The majority of these scenes are single rooms while a few are multi-room buildings.  A set of the training environment models can be downloaded from [here](https://drive.google.com/drive/folders/1bmxdT6Oxzt0_0tohye2br7gqTnkMaq20?usp=share_link). For all of the 15 training scenes, we also provide a processed point cloud of the scene, object and region information including color and size attributes, and referential language statements (please see [Object-Referential Dataset](#object-referential-dataset-vla-3d) for more details). 
@@ -81,11 +82,11 @@ A set of challenge questions for each Unity scene is provided in the pdf files f
 
 Our system runs on Ubuntu 20.04 and uses ROS Noetic in both simulation and onboard the real robot. Follow the instructions in the [docker/](docker/) folder to try the simulator by pulling the docker image provided and launching the system.
 
-The system uses Unity environments by default and has two parts both in the home folder of the docker image:
-- The base navigation system is in the `cmu_vla_challenge_unity` folder. For the base navigation system, you may change the scene used by placing it in the `src/vehicle_simulator/mesh/unity/` directory.
-- The vision-language model should be in the `ai_module` folder. The model currently in the folder under `src/` is a "dummy model" that produces arbitrary examples of the different types of output responses. **Teams are expected to come up with a model to replace this one.**
+The system uses Unity environments by default and has two parts:
+- The base navigation system is in the [system/unity](system/unity/) folder. This sytem can be launched by itself without the AI module running. For the base navigation system, you may change the scene used by placing it in the [system/unity/src/vehicle_simulator/mesh/unity/](system/unity/src/vehicle_simulator/mesh/unity/) directory.
+- The vision-language model should be in the [ai_module](ai_module/) folder. The model currently in the folder under `src/` is a "dummy model" that produces arbitrary examples of the different types of output responses. **Teams are expected to come up with a model to replace this one.**
 
-Launching the system startup script `start_cmu_vla_challenge.sh` in the home folder, the dummy model will output either a number to terminal, send bounding box visualization markers for object reference, or waypoints to guide vehicle navigation. The two types of messages are listed below. To integrate the a model with the system, please modify the system startup script.
+Launching the system startup script [launch.sh](launch.sh) will, be default, launch both the unity simulator and the dummy model. The dummy model will output either a number to terminal, send bounding box visualization markers for object reference, or waypoints to guide vehicle navigation. The two types of messages are listed below. To integrate the a model with the system, please modify the system startup script.
 - Visualization marker: ROS Marker message on topic name: `/selected_object_marker`, containing object label and bounding box of the selected object.
 - Waypoint: ROS Pose2D message on topic `/way_point_with_heading` (neglect the heading for this year’s challenge).
 
