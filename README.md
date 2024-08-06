@@ -76,7 +76,7 @@ A total of 18 Unity scenes are used for the challenge. 15 scenes are provided fo
 ![image](figures/scenes.png)
 
 ### Challenge Questions
-A set of challenge questions for each Unity scene is provided in the pdf files for each of the 15 training scenes under the [questions](questions/) folder. Images of the correct answer in each scene are also provided for visualization purposes and a .ply file of the target trajectory is provided as well.
+A set of challenge questions for each Unity scene is provided in the pdf files for each of the 15 training scenes under the [questions](questions/) folder. Images of the correct answer in each scene are also provided for visualization purposes and a .ply file of the target trajectory is provided as well. All questions for all training scenes can also be found in JSON format under [questions/questions.json](questions/questions.json).
 
 ### System
 
@@ -142,15 +142,21 @@ Example scene data collected from the real system is provided [here](https://dri
 
 
 ## Submission
-Follow the instructions under the [docker](docker/) folder to commit, tag, and push your docker image to Docker Hub and make it *public*. If it helps, you may remove the source code and only leave the executable. Prior to submitting, please download the docker image and test it with the simulator as the submission will be evaluated in the same way. Please also make sure that waypoints and visualization markers sent match the types in the example dummy model and are on the same ROS topics so that the base navigation system can correctly receive them.
+Submissions will be made as a github repository link to a public repository. The easiest way would be to fork this repository and make changes there, as the repository submitted will need to be structured in the same way. The only files/folders that should be changed are what's under [ai_module](ai_module/) and potentially the [launch.sh](launch.sh). 
 
-After pushing the docker image, please fill out the [Submission Form](https://forms.gle/KsjYNaTzSTvvPafC9) with a link to the DockerHub repo.
+Prior to submitting, please download the docker image and test it with the simulator as the submission will be evaluated in the same way. Please also make sure that waypoints and visualization markers sent match the types in the example dummy model and are on the same ROS topics so that the base navigation system can correctly receive them.
+
+Please fill out the [Submission Form](https://forms.gle/KsjYNaTzSTvvPafC9) with a link to your Github repo.
 
 ## Evaluation
-The submitted docker image will be pulled and evaluated with 3 Unity environment models which have been held from the released data. For each scene, 5 questions similar to those provided will be tested and a score will be given to each response. The question types will be scored as follows:
+_\* More details on the evaluation procedure will be posted in the coming weeks \*_
+
+The submitted code will be pulled and evaluated with 3 Unity environment models which have been held from the released data. Each scene will be unknown and the module will be given some time to explore the scene before being sent any language commands.
+
+For each scene, 5 questions similar to those provided will be tested and a score will be given to each response. The question types will be scored as follows:
 - **Numerical** (/1): Exact number must be printed in the terminal. Score of 0 or 1.
 - **Object Reference** (/1): ROS visualization marker must be sent that bounds the object with the center point of the marker within some X-Y radius of the ground-truth object's center point. Score of 0 or 1.
-- **Instruction-Following** (/3): A series of waypoints sent that guides the vehicle. A score will be calculated as the total points gained from the trajectory minus a penalty, where the penalty is summated over *n* trajectory points. Points are gained from reaching the final destination and following path constraints specified in the command. Penalties result from deviation from reference trajectory and length of the trajectory taken. Score between 0 and 3. 
+- **Instruction-Following** (/3): A series of waypoints sent that guides the vehicle. A score will be calculated as the total points gained from the trajectory minus a penalty, where the penalty is summated over *n* trajectory points. Points are gained from reaching the final destination and following path constraints specified in the command. Penalties result from deviation from reference trajectory and length of the trajectory taken. Score between 0 and 3, with possibility for partial points. 
 
 The scores from all questions across the 3 test scenes will be totaled for each team's final score.
 
