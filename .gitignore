@@ -4,3 +4,6 @@ ai_module/build/
 ai_module/devel/
 system/unity/build/
 system/unity/devel/
+**/.vscode/**
+**/__pycache__/**
+.catkin_workspace

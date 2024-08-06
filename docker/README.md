@@ -102,7 +102,6 @@ Follow the instructions in the "Set Up" section of [system/unity](../system/unit
 Go inside the `ai_module` folder and compile and set up the package:
 ```
 catkin_make
-source devel/setup.bash
 ```
 The system can then be launched altogether with the script under the root repository directory: 
 ```
