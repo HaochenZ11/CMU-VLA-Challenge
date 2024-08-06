@@ -97,7 +97,6 @@ docker exec -it ubuntu20_ros bash
 ## Launch Entire System
 Follow the instructions in the "Set Up" section of [system/unity](system/unity) to set up the simulator with Unity environment models. To test whether the simulator was correctly set up, go inside the folder and run:
 ```
-catkin_make
 ./system_bring_up.sh
 ```
 Go inside the `ai_module` folder and compile and set up the package:
