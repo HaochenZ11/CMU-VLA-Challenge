@@ -72,7 +72,7 @@ Move the entire `CMU-VLA-Challenge` repo to your local `/home/$USER` folder so t
 
 Note: If you choose to place it elsewhere, you'll have to modify the `working_dir` parameter in the docker compose file(s) to match the path to your cloned repo.
 
-Allow remote X connection:
+Inside the `CMU-VLA-Challenge` folder, allow remote X connection:
 ```
 xhost +
 ```
