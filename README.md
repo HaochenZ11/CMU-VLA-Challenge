@@ -151,7 +151,7 @@ Please fill out the [Submission Form](https://forms.gle/KsjYNaTzSTvvPafC9) with 
 ## Evaluation
 _\* More details on the evaluation procedure will be posted in the coming weeks \*_
 
-The submitted code will be pulled and evaluated with 3 Unity environment models which have been held from the released data. Each scene will be unknown and the module will be given some time to explore the scene before being sent any language commands.
+The submitted code will be pulled and evaluated with 3 Unity environment models which have been held from the released data. Each scene will be unknown and the module will be given some time to explore the scene before being sent any language commands and the vehicles will be reset to some given starting position beforehand. The test scenes are of similar style to the provided training scenes.
 
 For each scene, 5 questions similar to those provided will be tested and a score will be given to each response. The question types will be scored as follows:
 - **Numerical** (/1): Exact number must be printed in the terminal. Score of 0 or 1.
