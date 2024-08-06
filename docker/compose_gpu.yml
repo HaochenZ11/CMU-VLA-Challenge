@@ -8,7 +8,7 @@ services:
     privileged: true
     stdin_open: true
     tty: true
-    working_dir: /home/docker
+    working_dir: /home/$USER/CMU-VLA-Challenge
     # Enabling Nvidia GPUs
     deploy:
       resources:

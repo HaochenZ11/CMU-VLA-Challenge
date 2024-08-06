@@ -1,0 +1,9 @@
+system/unity/src/vehicle_simulator/log/
+system/unity/src/vehicle_simulator/mesh/
+ai_module/build/
+ai_module/devel/
+system/unity/build/
+system/unity/devel/
+**/.vscode/**
+**/__pycache__/**
+.catkin_workspace
