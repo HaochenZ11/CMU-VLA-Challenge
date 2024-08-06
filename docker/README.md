@@ -95,7 +95,7 @@ docker exec -it ubuntu20_ros bash
 ```
 
 ## Launch Entire System
-Follow the instructions in the "Set Up" section of [system/unity](system/unity) to set up the simulator with Unity environment models. To test whether the simulator was correctly set up, go inside the folder and run:
+Follow the instructions in the "Set Up" section of [system/unity](../system/unity) to set up the simulator with Unity environment models. To test whether the simulator was correctly set up, go inside the folder and run:
 ```
 ./system_bring_up.sh
 ```
