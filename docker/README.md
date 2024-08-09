@@ -102,11 +102,11 @@ Install dependencies with the command lines below:
 sudo apt update
 sudo apt install libusb-dev python-yaml python-is-python3
 ```
-In a terminal, go inside the [system/unity](system/unity) folder and compile (this may take a few minutes):
+In a terminal, go inside the [system/unity](../system/unity) folder and compile (this may take a few minutes):
 ```
 catkin_make
 ```
-Download any of our [Unity environment models](https://drive.google.com/drive/folders/1bmxdT6Oxzt0_0tohye2br7gqTnkMaq20?usp=share_link), unzip the folder, and copy the files inside to the [src/vehicle_simulator/mesh/unity](src/vehicle_simulator/mesh/unity/) folder. The environment model files should follow the structure below. Note that the `AssetList.csv` file is generated upon start of the system and that only one given environment folder can be placed under the [src/vehicle_simulator/mesh/unity](src/vehicle_simulator/mesh/unity/) directory at a time.
+Download any of our [Unity environment models](https://drive.google.com/drive/folders/1bmxdT6Oxzt0_0tohye2br7gqTnkMaq20?usp=share_link), unzip the folder, and copy the files inside to the [system/unity/src/vehicle_simulator/mesh/unity](../system/unity/src/vehicle_simulator/mesh/unity/) folder. The environment model files should follow the structure below. Note that the `AssetList.csv` file is generated upon start of the system and that only one given environment folder can be placed under the [system/unity/src/vehicle_simulator/mesh/unity](../system/unity/src/vehicle_simulator/mesh/unity/) directory at a time.
 
 mesh/<br>
 &nbsp;&nbsp;&nbsp;&nbsp;unity/<br>
@@ -123,11 +123,11 @@ mesh/<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;map.jpg<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;render.jpg<br>
 
-To test whether the simulator was correctly set up, go inside [system/unity](system/unity) and run:
+To test whether the simulator was correctly set up, go inside [system/unity](../system/unity) and run:
 ```
 ./system_bring_up.sh
 ```
-Go inside the `ai_module` folder and compile and set up the package:
+Go inside the [ai_module](../ai_module/) folder and compile and set up the package:
 ```
 catkin_make
 ```
