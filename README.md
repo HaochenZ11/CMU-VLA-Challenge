@@ -103,6 +103,8 @@ The system provides onboard data to the AI module as shown in the table below:
 | Traversable Area| ROS PointCloud2 message containing the traversable area of the entire environment. | 5Hz | map | `/traversable_area` |
 | Ground-Truth Semantics| ROS MarkerArray message containing object labels and bounding boxes within 2m around the vehicle. | 5Hz | map | `/object_markers` |
 
+**IMPORTANT NOTE**: While more topics may be available from the system, these are the only ones allowed to be used during test time. During training/development, you are free to use whatever information the system simulator provides.
+
 #### System Inputs
 
 The system takes waypoints output from the AI module to navigate the robot. Waypoints located in the traversable area (listed above) are accepted directly, and waypoints out of the traversable area are adjusted and moved into the traversable area. The system also takes visualization markers output by the module to highlight selected objects. The table below lists the ROS topics to use. The waypoints should be used for Numerical and Instruction-Following questions while the visualization marker should be the output for the Object Reference questions.
@@ -151,7 +153,7 @@ Please fill out the [Submission Form](https://forms.gle/KsjYNaTzSTvvPafC9) with 
 ## Evaluation
 _\* More details on the evaluation procedure will be posted in the coming weeks \*_
 
-The submitted code will be pulled and evaluated with 3 Unity environment models which have been held from the released data. Each scene will be unknown and the module will be given some time to explore the scene before being sent any language commands and the vehicles will be reset to some given starting position beforehand. The test scenes are of similar style to the provided training scenes.
+The submitted code will be pulled and evaluated with 3 Unity environment models which have been held from the released data. Each scene will be unknown and the module will be given some time to explore the scene before being sent any language commands and the vehicles will be reset to some given starting position beforehand. The test scenes are of similar style to the provided training scenes. The system will be relaunched for each language command tested such that information about previous scenes are not retained. Note that the information onboard the system that is allowed to be used at test time is limited to what's listed in [System Outputs](#system-outputs).
 
 For each scene, 5 questions similar to those provided will be tested and a score will be given to each response. The question types will be scored as follows:
 - **Numerical** (/1): Exact number must be printed in the terminal. Score of 0 or 1.

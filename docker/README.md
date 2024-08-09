@@ -94,8 +94,36 @@ Access the running container:
 docker exec -it ubuntu20_ros bash
 ```
 
-## Launch Entire System
-Follow the instructions in the "Set Up" section of [system/unity](../system/unity) to set up the simulator with Unity environment models. To test whether the simulator was correctly set up, go inside the folder and run:
+## Set Up and Launch Entire System
+Set up the simulator with Unity environment models. The simulator can also be launched by itself - more details can be found in [system/unity](system/unity).
+
+Install dependencies with the command lines below:
+```
+sudo apt update
+sudo apt install libusb-dev python-yaml python-is-python3
+```
+In a terminal, go inside the [system/unity](system/unity) folder and compile (this may take a few minutes):
+```
+catkin_make
+```
+Download any of our [Unity environment models](https://drive.google.com/drive/folders/1bmxdT6Oxzt0_0tohye2br7gqTnkMaq20?usp=share_link), unzip the folder, and copy the files inside to the [src/vehicle_simulator/mesh/unity](src/vehicle_simulator/mesh/unity/) folder. The environment model files should follow the structure below. Note that the `AssetList.csv` file is generated upon start of the system and that only one given environment folder can be placed under the [src/vehicle_simulator/mesh/unity](src/vehicle_simulator/mesh/unity/) directory at a time.
+
+mesh/<br>
+&nbsp;&nbsp;&nbsp;&nbsp;unity/<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;environment/<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Model_Data/ (multiple files in the folder)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Model.x86_64<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UnityPlayer.so<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AssetList.csv (generated at runtime)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dimensions.csv<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Categories.csv<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;map.ply<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;object_list.txt<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;traversable_area.ply<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;map.jpg<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;render.jpg<br>
+
+To test whether the simulator was correctly set up, go inside [system/unity](system/unity) and run:
 ```
 ./system_bring_up.sh
 ```
