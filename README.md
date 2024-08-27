@@ -150,6 +150,7 @@ Prior to submitting, please download the docker image and test it with the simul
 
 Please fill out the [Submission Form](https://forms.gle/KsjYNaTzSTvvPafC9) with a link to your Github repo.
 
+
 ## Evaluation
 _\* More details on the evaluation procedure will be posted in the coming weeks \*_
 
@@ -165,6 +166,22 @@ The scores from all questions across the 3 test scenes will be totaled for each 
 
 ## Challenge FAQ
 Any questions regarding the challenge can be emailed to haochen4@andrew.cmu.edu or any of the other challenge organizers. Frequently asked questions will be posted here.
+
+1. Are multiple submissions allowed?
+
+    There is no limit to the number of submissions allowed during the competition. The submission form is set up to allow multiple submissions and we will take your highest scoring one.
+
+2. What are the time constraints for completing the task?
+
+    There is a total time limit for the combined exploration and question-answering given one scene and one language statement. This will be 3 minutes for most scenes and longer for the scenes with multiple rooms, i.e. home_building_xx.
+
+3. Any restrictions on the usage of LLMs/VLMs/APIs?
+
+    There are no restrictions on using LLMs, VLMs, or online APIs. Any model can be used, however, keep in mind that we will need to be able to run your code and if it needs to query online APIs during runtime, you will have to provide your access token in your code.
+
+4. What is the docker size limit?
+
+    The size limitation depends on the machine we use to run evaluation. The specs for the machine can be found [HERE](https://simplynuc.com/product/nuc13rngi9-full/?gad_source=1&gclid=CjwKCAjwiaa2BhAiE[%E2%80%A6]g4P7AnhLOZQVIoVC9croO7-i74DfuezIOztALzi5RVJ3jv3bxoCxmEQAvD_BwE).
 
 ## References
 
