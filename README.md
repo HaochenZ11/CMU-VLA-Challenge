@@ -19,7 +19,10 @@
 
 [Evaluation](#evaluation)
 
+[Leaderboard](#leaderboard)
+
 [Challenge FAQ](#challenge-faq)
+
 
 ## Introduction
 The CMU Vision-Language-Autonomy Challenge leverages computer vision and natural language understanding in navigation autonomy. The challenge aims at pushing the limit of embodied AI in real environments and on real robots - providing a robot platform and a working autonomy system to bring everybody's work a step closer to real-world deployment. The challenge provides a real-robot system equipped with a 3D lidar and a 360 camera. The system has base autonomy onboard that can estimate the sensor pose, analyze the terrain, avoid collisions, and navigate to waypoints. Teams will set up software on the robot's onboard computer to interface with the system and navigate the robot. For 2024, the challenge will be done in a custom simulation environment and move to the real-robot system the following year. 
@@ -148,21 +151,52 @@ Submissions will be made as a github repository link to a public repository. The
 
 Prior to submitting, please download the docker image and test it with the simulator as the submission will be evaluated in the same way. Please also make sure that waypoints and visualization markers sent match the types in the example dummy model and are on the same ROS topics so that the base navigation system can correctly receive them.
 
-Please fill out the [Submission Form](https://forms.gle/KsjYNaTzSTvvPafC9) with a link to your Github repo.
+Please fill out the [Submission Form](https://forms.gle/KsjYNaTzSTvvPafC9) and feel free to email us to confirm your submission was received.
 
 
 ## Evaluation
-_\* More details on the evaluation procedure will be posted in the coming weeks \*_
-
 The submitted code will be pulled and evaluated with 3 Unity environment models which have been held from the released data. Each scene will be unknown and the module will be given some time to explore the scene before being sent any language commands and the vehicles will be reset to some given starting position beforehand. The test scenes are of similar style to the provided training scenes. The system will be relaunched for each language command tested such that information about previous scenes are not retained. Note that the information onboard the system that is allowed to be used at test time is limited to what's listed in [System Outputs](#system-outputs).
 
-For each scene, 5 questions similar to those provided will be tested and a score will be given to each response. The question types will be scored as follows:
-- **Numerical** (/1): Exact number must be printed in the terminal. Score of 0 or 1.
-- **Object Reference** (/1): ROS visualization marker must be sent that bounds the object with the center point of the marker within some X-Y radius of the ground-truth object's center point. Score of 0 or 1.
-- **Instruction-Following** (/3): A series of waypoints sent that guides the vehicle. A score will be calculated as the total points gained from the trajectory minus a penalty, where the penalty is summated over *n* trajectory points. Points are gained from reaching the final destination and following path constraints specified in the command. Penalties result from deviation from reference trajectory and length of the trajectory taken. Score between 0 and 3, with possibility for partial points. 
+All questions will be scored with a combination of *Accuracy* and *Efficiency*, with a priority on accuracy. What determines accuracy depends on the question category but efficiency will be measured as the time taken proportional to the time given. 
 
-The scores from all questions across the 3 test scenes will be totaled for each team's final score.
+### Time Limit
+A time limit of 3 minutes will be given for all scenes except for ones with multiple rooms (eg. home_building_xx), where more time will be allowed depending on how many additional rooms there are. This time limit includes both exploration time and question-answering time, there is no distinction between the two. Time taken is measured from the automated system launch to time when response sent, in seconds, until the maximum time limit. <ins> Responses not given in the time limit will be given a score of 0 for that question. </ins>
 
+### Scoring
+
+The scores from all questions across the 3 test scenes will be totaled for each team's final score. The scoring method for each question type is detailed below.
+
+**Numerical**
+
+&rarr; Incorrect (score of 0): If the integer value is incorrect.
+
+Otherwise, the score is dependent on the proportion of total time taken.
+
+
+**Object Reference**
+
+&rarr; Incorrect (score of 0): If the center of the output bounding box is more than 1m away from the center of the ground-truth bounding box in the X-Y plane.
+
+Otherwise, the score is a weighted combination of the IOU between the visualization marker sent and the ground-truth bounding box, and the proportion of total time taken.
+
+
+**Instruction-Following**
+
+&rarr; Incorrect (score of 0): If a waypoint is sent in an area specified as a "no-go zone" in the question, or, if no valid waypoints are sent.
+
+Otherwise, the score is a weighted combination of the accuracy of the path and the proportion of total time taken. The accuracy of the path depends on both the location of the waypoints sent and the order in which they are sent. 
+
+Waypoint location: 
+- For a waypoint corresponding to an instruction referring to an area (eg. "path near the TV"), it is valid if it falls within the bounding box of the referenced area. 
+- For a waypoint corresponding to to an instruction for stopping at an object, it is valid if the vehicle position is within 1m from the center of the ground-truth bounding box in the X-Y plane (similar to Object Reference scoring above)
+
+Order:
+- points are awarded if waypoints corresponding to each instruction are sent in the correct order (but they do not have to be consecutive).
+
+Note: Once scores are earned for a waypoint, they will not be deducted if further additional/repeated waypoints are sent, unless they fall in a restricted area.
+
+## Leaderboard
+Coming soon!
 
 ## Challenge FAQ
 Any questions regarding the challenge can be emailed to haochen4@andrew.cmu.edu or any of the other challenge organizers. Frequently asked questions will be posted here.
