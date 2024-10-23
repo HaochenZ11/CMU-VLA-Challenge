@@ -19,10 +19,7 @@
 
 [Evaluation](#evaluation)
 
-[Leaderboard](#leaderboard)
-
 [Challenge FAQ](#challenge-faq)
-
 
 ## Introduction
 The CMU Vision-Language-Autonomy Challenge leverages computer vision and natural language understanding in navigation autonomy. The challenge aims at pushing the limit of embodied AI in real environments and on real robots - providing a robot platform and a working autonomy system to bring everybody's work a step closer to real-world deployment. The challenge provides a real-robot system equipped with a 3D lidar and a 360 camera. The system has base autonomy onboard that can estimate the sensor pose, analyze the terrain, avoid collisions, and navigate to waypoints. Teams will set up software on the robot's onboard computer to interface with the system and navigate the robot. For 2024, the challenge will be done in a custom simulation environment and move to the real-robot system the following year. 
@@ -86,11 +83,16 @@ A set of challenge questions for each Unity scene is provided in the pdf files f
 Our system runs on Ubuntu 20.04 and uses ROS Noetic in both simulation and onboard the real robot. Follow the instructions in the [docker/](docker/) folder to try the simulator by pulling the docker image provided and launching the system.
 
 The system uses Unity environments by default and has two parts:
-- The base navigation system is in the [system/unity](system/unity/) folder. This sytem can be launched by itself without the AI module running. For the base navigation system, you may change the scene used by placing it in the [system/unity/src/vehicle_simulator/mesh/unity/](system/unity/src/vehicle_simulator/mesh/unity/) directory.
-- The vision-language model should be in the [ai_module](ai_module/) folder. The model currently in the folder under [ai_module/src](ai_module/src) is a "dummy model" that produces arbitrary examples of the different types of output responses. **Teams are expected to come up with a model to replace this one.**
+- The base navigation system is in the [system/unity](system/unity/) folder. This system can be launched by itself without the AI module running. For the base navigation system, you may change the scene used by placing it in the [system/unity/src/vehicle_simulator/mesh/unity/](system/unity/src/vehicle_simulator/mesh/unity/) directory.
+- The vision-language model should be in the [ai_module](ai_module/) folder. The model currently in the folder under [ai_module/src](ai_module/src) is a "dummy model" that demonstrates how to read input questions and produces arbitrary examples of the different types of output responses which are to be used by the system and the evaluation node. **Teams are expected to come up with a model to replace this one.**
 
-Launching the system startup script [launch.sh](launch.sh) will, be default, launch both the unity simulator and the dummy model. The dummy model will output either a number to terminal, send bounding box visualization markers for object reference, or waypoints to guide vehicle navigation. The two types of messages are listed below. To integrate the a model with the system, please modify the system startup script.
-- Visualization marker: ROS Marker message on topic name: `/selected_object_marker`, containing object label and bounding box of the selected object.
+Launching the system startup script [launch.sh](launch.sh) will, by default, launch both the unity simulator and the dummy model. 
+
+#### Dummy Model
+
+The dummy model will read a question as a ROS String message on the `/challenge_question` topic. The dummy model will then either publish an integer as an Int32 message, send bounding box visualization markers for object reference, or waypoints to guide vehicle navigation. The three types of messages are listed below. To integrate the a model with the system, please modify the system startup script.
+- Numerical response: ROS Int32 message on topic `/numerical_response`, containing an integer answering a numerical question.
+- Visualization marker: ROS Marker message on topic `/selected_object_marker`, containing object label and bounding box of the selected object.
 - Waypoint: ROS Pose2D message on topic `/way_point_with_heading` (neglect the heading for this year’s challenge).
 
 #### System Outputs
@@ -110,12 +112,15 @@ The system provides onboard data to the AI module as shown in the table below:
 
 #### System Inputs
 
-The system takes waypoints output from the AI module to navigate the robot. Waypoints located in the traversable area (listed above) are accepted directly, and waypoints out of the traversable area are adjusted and moved into the traversable area. The system also takes visualization markers output by the module to highlight selected objects. The table below lists the ROS topics to use. The waypoints should be used for Numerical and Instruction-Following questions while the visualization marker should be the output for the Object Reference questions.
+The system takes waypoints output from the AI module to navigate the robot. Waypoints located in the traversable area (listed above) are accepted directly, and waypoints out of the traversable area are adjusted and moved into the traversable area. The system also takes visualization markers output by the module to highlight selected objects. Int32 messages indicating a numerical response are not directly used by the system to navigate the robot, and are read instead by the evaluation node detailed in the [evaluation](#evaluation) section.
+
+The table below lists the ROS topics to use. The waypoints should be used for Instruction-Following questions, the visualization marker should be the output for the Object Reference questions, and the integers for Numerical questions.
 
 | Message | Description | ROS Topic Name |
 |-|-|-|
 | Waypoint with Heading | ROS Pose2D message with position and orientation. | `/way_point_with_heading` |
 | Selected Object Marker | ROS Marker message containing object label and bounding box of the selected object. | `/selected_object_marker` |
+| Numerical Response | ROS Int32 message with an integer as an answer to a numerical question. | `/numerical_response` |
 
 The coordinate frames used by the physical system are shown below. The camera position (camera frame) with respect to the lidar (sensor frame) is measured based on a CAD model. The orientation is calibrated and the images are remapped to keep the camera frame and lidar frame aligned. 
 
@@ -151,52 +156,32 @@ Submissions will be made as a github repository link to a public repository. The
 
 Prior to submitting, please download the docker image and test it with the simulator as the submission will be evaluated in the same way. Please also make sure that waypoints and visualization markers sent match the types in the example dummy model and are on the same ROS topics so that the base navigation system can correctly receive them.
 
-Please fill out the [Submission Form](https://forms.gle/KsjYNaTzSTvvPafC9) and feel free to email us to confirm your submission was received.
+Please fill out the [Submission Form](https://forms.gle/KsjYNaTzSTvvPafC9) with a link to your Github repo.
 
 
 ## Evaluation
-The submitted code will be pulled and evaluated with 3 Unity environment models which have been held from the released data. Each scene will be unknown and the module will be given some time to explore the scene before being sent any language commands and the vehicles will be reset to some given starting position beforehand. The test scenes are of similar style to the provided training scenes. The system will be relaunched for each language command tested such that information about previous scenes are not retained. Note that the information onboard the system that is allowed to be used at test time is limited to what's listed in [System Outputs](#system-outputs).
 
-All questions will be scored with a combination of *Accuracy* and *Efficiency*, with a priority on accuracy. What determines accuracy depends on the question category but efficiency will be measured as the time taken proportional to the time given. 
+The submitted code will be pulled and evaluated with 3 Unity environment models which have been held from the released data. Each scene will be unknown and the module will be given some time to explore the scene before being sent any language commands and the vehicles will be reset to their initial starting position in the scene beforehand. The test scenes are of similar style to the provided training scenes. **The system will be relaunched for each language command tested such that information collected from previously exploring the scene is not retained.** Note that the information onboard the system that is allowed to be used at test time is limited to what is listed in [System Outputs](#system-outputs).
 
-### Time Limit
-A time limit of 3 minutes will be given for all scenes except for ones with multiple rooms (eg. home_building_xx), where more time will be allowed depending on how many additional rooms there are. This time limit includes both exploration time and question-answering time, there is no distinction between the two. Time taken is measured from the automated system launch to time when response sent, in seconds, until the maximum time limit. <ins> Responses not given in the time limit will be given a score of 0 for that question. </ins>
+Evaluation is performed by a `challenge_evaluation_node` whose source code is not made public. The evaluation node will be started along with the team-provided AI module and the system at the same time, and publishes a single question each startup as a ROS String message on the following topic at a rate of 1Hz:
 
-### Scoring
+| Message | Description | Frequency | ROS Topic Name |
+|-|-|-|-|
+| Challenge Question | ROS Pose2D message with position and orientation. | 1Hz | `/challenge_question` |
 
-The scores from all questions across the 3 test scenes will be totaled for each team's final score. The scoring method for each question type is detailed below.
+### Question Types and Initial Scoring
 
-**Numerical**
+For each scene, 5 questions similar to those provided will be tested and a score will be given to each response. The question types will be scored as follows:
+- **Numerical** (/1): Exact number must be published on `/numerical_response` as an `std_msgs/Int32` message. Score of 0 or 1.
+- **Object Reference** (/2): ROS `visualization_msgs/Marker` message must be published on `/selected_object_marker`, and is scored based on its degree of overlap with the ground truth object bounding box. Score between 0 and 2.
+- **Instruction-Following** (/6): A series of `geometry_msgs/Pose2D` waypoints must be published on `/way_point_with_heading` to guide the vehicle. The score will be calculated based on the actual trajectory followed by the robot based on whether it follows the path constraints in the command and in the correct order. Penalties are imposed upon the score if the followed path deviates from the correct order of constraints, does not achieve the desired constraints, or passes through areas it is forbidden to go through in the command. Score between 0 and 6, with possibility for partial points. 
 
-&rarr; Incorrect (score of 0): If the integer value is incorrect.
+The scores from all questions across the 3 test scenes will be totaled for each team's final score.
 
-Otherwise, the score is dependent on the proportion of total time taken.
+### Timing
 
+For each question, both re-exploration on system launch and question answering will be timed. Timing will begin immediately at system startup. Each question has a total time limit of **10 minutes** for exploration and question answering combined, for all three test scenes. Exceeding the time limit for a certain question incurs a penalty on the initial score calculated for the question. Finishing before the allotted time for a question earns bonus points on that question, which will be used to break ties between teams with similar initial scores.
 
-**Object Reference**
-
-&rarr; Incorrect (score of 0): If the center of the output bounding box is more than 1m away from the center of the ground-truth bounding box in the X-Y plane.
-
-Otherwise, the score is a weighted combination of the IOU between the visualization marker sent and the ground-truth bounding box, and the proportion of total time taken.
-
-
-**Instruction-Following**
-
-&rarr; Incorrect (score of 0): If a waypoint is sent in an area specified as a "no-go zone" in the question, or, if no valid waypoints are sent.
-
-Otherwise, the score is a weighted combination of the accuracy of the path and the proportion of total time taken. The accuracy of the path depends on both the location of the waypoints sent and the order in which they are sent. 
-
-Waypoint location: 
-- For a waypoint corresponding to an instruction referring to an area (eg. "path near the TV"), it is valid if it falls within the bounding box of the referenced area. 
-- For a waypoint corresponding to to an instruction for stopping at an object, it is valid if the vehicle position is within 1m from the center of the ground-truth bounding box in the X-Y plane (similar to Object Reference scoring above)
-
-Order:
-- points are awarded if waypoints corresponding to each instruction are sent in the correct order (but they do not have to be consecutive).
-
-Note: Once scores are earned for a waypoint, they will not be deducted if further additional/repeated waypoints are sent, unless they fall in a restricted area.
-
-## Leaderboard
-Coming soon!
 
 ## Challenge FAQ
 Any questions regarding the challenge can be emailed to haochen4@andrew.cmu.edu or any of the other challenge organizers. Frequently asked questions will be posted here.
@@ -207,7 +192,7 @@ Any questions regarding the challenge can be emailed to haochen4@andrew.cmu.edu 
 
 2. What are the time constraints for completing the task?
 
-    There is a total time limit for the combined exploration and question-answering given one scene and one language statement. This will be 3 minutes for most scenes and longer for the scenes with multiple rooms, i.e. home_building_xx.
+    Please check the [timing section](#timing).
 
 3. Any restrictions on the usage of LLMs/VLMs/APIs?
 
