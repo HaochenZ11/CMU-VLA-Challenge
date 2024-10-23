@@ -161,7 +161,7 @@ Please fill out the [Submission Form](https://forms.gle/KsjYNaTzSTvvPafC9) with 
 
 ## Evaluation
 
-The submitted code will be pulled and evaluated with 3 Unity environment models which have been held from the released data. Each scene will be unknown and the module will be given some time to explore the scene before being sent any language commands and the vehicles will be reset to their initial starting position in the scene beforehand. The test scenes are of similar style to the provided training scenes. The system will be relaunched for each language command tested such that information collected from previously exploring the scene is not retained. Note that the information onboard the system that is allowed to be used at test time is limited to what is listed in [System Outputs](#system-outputs).
+The submitted code will be pulled and evaluated with 3 Unity environment models which have been held from the released data. Each scene will be unknown and the module will be given some time to explore the scene before being sent any language commands and the vehicles will be reset to their initial starting position in the scene beforehand. The test scenes are of similar style to the provided training scenes. **The system will be relaunched for each language command tested such that information collected from previously exploring the scene is not retained.** Note that the information onboard the system that is allowed to be used at test time is limited to what is listed in [System Outputs](#system-outputs).
 
 Evaluation is performed by a `challenge_evaluation_node` whose source code is not made public. The evaluation node will be started along with the team-provided AI module and the system at the same time, and publishes a single question each startup as a ROS String message on the following topic at a rate of 1Hz:
 
@@ -169,14 +169,18 @@ Evaluation is performed by a `challenge_evaluation_node` whose source code is no
 |-|-|-|-|
 | Challenge Question | ROS Pose2D message with position and orientation. | 1Hz | `/challenge_question` |
 
+### Question Types and Initial Scoring
+
 For each scene, 5 questions similar to those provided will be tested and a score will be given to each response. The question types will be scored as follows:
 - **Numerical** (/1): Exact number must be published on `/numerical_response` as an `std_msgs/Int32` message. Score of 0 or 1.
 - **Object Reference** (/2): ROS `visualization_msgs/Marker` message must be published on `/selected_object_marker`, and is scored based on its degree of overlap with the ground truth object bounding box. Score between 0 and 2.
 - **Instruction-Following** (/6): A series of `geometry_msgs/Pose2D` waypoints must be published on `/way_point_with_heading` to guide the vehicle. The score will be calculated based on the actual trajectory followed by the robot based on whether it follows the path constraints in the command and in the correct order. Penalties are imposed upon the score if the followed path deviates from the correct order of constraints, does not achieve the desired constraints, or passes through areas it is forbidden to go through in the command. Score between 0 and 6, with possibility for partial points. 
 
-Timing will begin immediately at system startup, and time to follow an instruction will be either used as a penalty, as a bonus, or as a tiebreaker between teams.
-
 The scores from all questions across the 3 test scenes will be totaled for each team's final score.
+
+### Timing
+
+For each question, both re-exploration on system launch and question answering will be timed. Timing will begin immediately at system startup. Each question has a total time limit of **10 minutes** for exploration and question answering combined, for all three test scenes. Exceeding the time limit for a certain question incurs a penalty on the initial score calculated for the question. Finishing before the allotted time for a question earns bonus points on that question, which will be used to break ties between teams with similar initial scores.
 
 
 ## Challenge FAQ
@@ -188,7 +192,7 @@ Any questions regarding the challenge can be emailed to haochen4@andrew.cmu.edu 
 
 2. What are the time constraints for completing the task?
 
-    There is a total time limit for the combined exploration and question-answering given one scene and one language statement. This will be 3 minutes for most scenes and longer for the scenes with multiple rooms, i.e. home_building_xx.
+    Please check the [timing section](#timing).
 
 3. Any restrictions on the usage of LLMs/VLMs/APIs?
 
