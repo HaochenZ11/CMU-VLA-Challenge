@@ -18,6 +18,8 @@
 [Submission](#submission)
 
 [Evaluation](#evaluation)
+- [Question Types and Initial Scoring](#question-types-and-initial-scoring)
+- [Timing](#timing)
 
 [Challenge FAQ](#challenge-faq)
 
@@ -148,7 +150,15 @@ Starting in 2025, the challenge evaluation will be done on the real-robot system
 
 ### Real-Robot Data
 
-Example scene data collected from the real system is provided [here](https://drive.google.com/drive/folders/1M0_UkY7aDIEpoVK6GdWzg45v-HX2UMSd?usp=drive_link) with some differences in the object layout. The dataset contains ROS messages provided by the system in the same format as during the challenge. An RVIZ configuration file is also provided for viewing the data. A ground truth map with object segmentation and IDs and an object list with bounding boxes and labels are also provided. The ground truth map and the object list are only available in the datasets but not at the challenge. The camera pose (camera frame) with respect to the lidar (sensor frame) can be found in the text file included.
+Example scene data collected from the real system is provided [here](https://drive.google.com/drive/folders/1M0_UkY7aDIEpoVK6GdWzg45v-HX2UMSd?usp=drive_link) with some differences in the object layout. The following can be found in the sample data:
+
+- `data_view.rviz`: An RVIZ configuration file provided for viewing the data
+- `map.ply`: A ground truth map with object segmentation and IDs
+- `object_list.txt`: Object list with bounding boxes and labels are also provided
+- `system.zip`: Zipped bagfile with ROS messages provided by the system in the same format as during the challenge
+- `readme.txt`: Calibration information and further details about the sample files
+
+Here, the ground truth map and the object list are not provided files during the challenge but shown as a sample of what information can be obtained and processed from the system. The camera pose (camera frame) with respect to the lidar (sensor frame) can be found in the README file included. Further details about the files can be found in the README text file as well.
 
 
 ## Submission
@@ -160,8 +170,7 @@ Please fill out the [Submission Form](https://forms.gle/KsjYNaTzSTvvPafC9) with 
 
 
 ## Evaluation
-
-The submitted code will be pulled and evaluated with 3 Unity environment models which have been held from the released data. Each scene will be unknown and the module will be given some time to explore the scene before being sent any language commands and the vehicles will be reset to their initial starting position in the scene beforehand. The test scenes are of similar style to the provided training scenes. **The system will be relaunched for each language command tested such that information collected from previously exploring the scene is not retained.** Note that the information onboard the system that is allowed to be used at test time is limited to what is listed in [System Outputs](#system-outputs).
+The submitted code will be pulled and evaluated with 3 Unity environment models which have been held from the released data. Each scene will be unknown and the module has a set amount of time to explore and answer the question (see [timing](#timing) for more details). The test scenes are of similar style to the provided training scenes. **The system will be relaunched for each language command tested such that information collected from previously exploring the scene is not retained.** Note that the information onboard the system that is allowed to be used at test time is limited to what is listed in [System Outputs](#system-outputs).
 
 Evaluation is performed by a `challenge_evaluation_node` whose source code is not made public. The evaluation node will be started along with the team-provided AI module and the system at the same time, and publishes a single question each startup as a ROS String message on the following topic at a rate of 1Hz:
 
@@ -180,7 +189,7 @@ The scores from all questions across the 3 test scenes will be totaled for each 
 
 ### Timing
 
-For each question, both re-exploration on system launch and question answering will be timed. Timing will begin immediately at system startup. Each question has a total time limit of **10 minutes** for exploration and question answering combined, for all three test scenes. Exceeding the time limit for a certain question incurs a penalty on the initial score calculated for the question. Finishing before the allotted time for a question earns bonus points on that question, which will be used to break ties between teams with similar initial scores.
+For each question, both re-exploration on system launch and question answering will be timed. Timing will begin immediately at system startup. Each question has a total time limit of **10 minutes** for exploration and question answering combined, regardless of the test scene. Exceeding the time limit for a certain question incurs a penalty on the initial score calculated for the question. Finishing before the allotted time for a question earns bonus points on that question, which will be used to break ties between teams with similar initial scores.
 
 
 ## Challenge FAQ
@@ -188,11 +197,11 @@ Any questions regarding the challenge can be emailed to haochen4@andrew.cmu.edu 
 
 1. Are multiple submissions allowed?
 
-    There is no limit to the number of submissions allowed during the competition. The submission form is set up to allow multiple submissions and we will take your highest scoring one.
+    Yes, there is no limit to the number of submissions allowed during the competition. The submission form is set up to allow multiple submissions and we will take your highest scoring one.
 
 2. What are the time constraints for completing the task?
 
-    Please check the [timing section](#timing).
+    Please check the [timing](#timing) section.
 
 3. Any restrictions on the usage of LLMs/VLMs/APIs?
 
