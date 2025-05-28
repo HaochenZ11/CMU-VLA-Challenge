@@ -1,5 +1,6 @@
 services:
   ubuntu20_ros_system:
+    runtime: nvidia
     build:
       context: .
       dockerfile: Dockerfile_system
