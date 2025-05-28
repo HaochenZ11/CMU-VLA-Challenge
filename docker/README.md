@@ -1,4 +1,9 @@
 # CMU VLA Challenge Docker Instructions
+Two docker images are used for the challenge:
+- `ubuntu20_ros_system`: docker image for the system simulator - this image should NOT be modified
+- `ubuntu20_ros`: docker image for the AI module - this will be the image you modify when developing the model
+
+You may modify `Dockerfile` to edit the docker image for the module developed. 
 
 Prior to following these instructions, make sure you have pulled this repo and copied it to your `/home/$USER` folder. If you want to use a different path, refer to the note under the section [Run and Modify Docker Image](#run-and-modify-docker-image).
 
@@ -81,7 +86,7 @@ Go inside this folder in terminal.
 cd CMU-VLA-Challenge/docker/
 ```
 
-For computers **without a Nvidia GPU**, compose the Docker image and start the container:
+For computers **without a Nvidia GPU**, compose the Docker image and start the containers:
 ```
 docker compose -f compose.yml up --build -d
 ```
@@ -89,8 +94,11 @@ For computers **with Nvidia GPUs**, use the `compose_gpu.yml` file instead (crea
 ```
 docker compose -f compose_gpu.yml up --build -d
 ```
-Access the running container:
+This will start two docker containers. One will be for the challenge simulator system and the other will be the development docker for the AI module which you will modify.
+
+Access the running containers:
 ```
+docker exec -it ubuntu20_ros_system bash
 docker exec -it ubuntu20_ros bash
 ```
 
@@ -131,11 +139,15 @@ Go inside the [ai_module](../ai_module/) folder and compile and set up the packa
 ```
 catkin_make
 ```
-The system can then be launched altogether with the script under the root repository directory: 
+Inside the docker for the simulator system, the system can be launched under the root repository directory with:
 ```
-./launch.sh
+./launch_system.sh
 ```
-You should see both the simulator launching in RViz and a terminal prompt asking for text input.
+Inside the docker for the AI module, the dummy model can be launched under the root repository directory with:
+```
+./launch_module.sh
+```
+You should see both the simulator launching in RViz in one docker and a terminal prompt asking for text input in the other.
 
 The prompt will ask you to type in a question or command and the system will move accordingly. As the system is running with a "dummy model" by default, it simply parses the type of statement and returns the appropriate response type with arbitrary values. The behavior of the dummy model for different language inputs is as follows: 
 - "how many...": prints out a number in terminal
@@ -146,7 +158,7 @@ If you use the control panel to navigate the vehicle, to resume waypoint navigat
 
 
 ## Push Docker Image
-After you are done with the modifications, push the image to [Docker Hub](https://hub.docker.com/). To do this, create a Docker Hub account and login to the account from another terminal (not the terminal accessing the container):
+After you are done modifying the docker image for the model, push the image to [Docker Hub](https://hub.docker.com/). To do this, create a Docker Hub account and login to the account from another terminal (not the terminal accessing the container):
 ```
 docker login -u [DOCKERHUB_USERNAME]
 ```
@@ -183,10 +195,8 @@ docker run --gpus all -it --rm --privileged -e DISPLAY -e QT_X11_NO_MITSHM=1 \
   -v /dev/input:/dev/input -v /dev/bus/usb:/dev/bus/usb:rw -v /home/$USER:/home/$USER:rw \
   --network=host [IMAGE_ID]
 ```
-Launch the overall system:
-```
-launch.sh
-```
+
+**Please ensure the docker image submitted in the end works with the `ubuntu20_ros_system` docker image for our simulator system/robot platform.**
 
 ## Use Different Base Image
 
