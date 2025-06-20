@@ -146,7 +146,7 @@ To help with the subtask of referential object-grounding, the VLA-3D dataset con
 
 ## Real-Robot Challenge (2025)
 
-Starting in 2025, the challenge evaluation will be done on the real-robot system instead of in simulation. In the challenge, the system provides onboard data as described below and takes waypoints in the same way as the simulator. The software developed in the AI module is only able to send waypoints to explore the scene. Manually sending waypoints or teleoperation is not allowed. Each team will remotely login to the robot's onboard computer (16x i9 CPU cores, 32GB RAM, RTX 4090 GPU), and set up software in a Docker container that interfaces with the autonomy modules. The Docker container is used by each team alone and not shared with other teams. We will schedule multiple time slots for each team to set up the software and test the robot. The teams can also record data on the robot's onboard computer and this data will be made available to participants afterwards.
+Starting in 2025, the final round of challenge evaluation will be done on the real-robot system while initial evaluation rounds are still done in simulation. Similar to the simulator, the system provides onboard data as described below and takes waypoints in the same way as the simulator. The software developed in the AI module is only able to send waypoints to explore the scene. Manually sending waypoints or teleoperation is not allowed. During the final evaluation phase, each team will remotely login to the robot's onboard computer (16x i9 CPU cores, 32GB RAM, RTX 4090 GPU), and set up software in a Docker container that interfaces with the autonomy modules. The Docker container is used by each team alone and not shared with other teams. We will schedule time slots for teams who pass the simulation round to set up the software and test the robot during that phase. The teams can also record data on the robot's onboard computer and this data will be made available to participants afterwards.
 
 ### Real-Robot Data
 
@@ -193,7 +193,7 @@ For each question, both re-exploration on system launch and question answering w
 
 
 ## Challenge FAQ
-Any questions regarding the challenge can be emailed to haochen4@andrew.cmu.edu or any of the other challenge organizers. Frequently asked questions will be posted here.
+Any questions regarding the challenge can be asked by opening a Github issue with the "question" label. Questions specific to your team situation can be emailed to haochen4@andrew.cmu.edu or other challenge organizers. Frequently asked questions will be posted here.
 
 1. Are multiple submissions allowed?
 
@@ -210,6 +210,7 @@ Any questions regarding the challenge can be emailed to haochen4@andrew.cmu.edu 
 4. What is the docker size limit?
 
     The size limitation depends on the machine we use to run evaluation. The specs for the machine can be found [HERE](https://simplynuc.com/product/nuc13rngi9-full/?gad_source=1&gclid=CjwKCAjwiaa2BhAiE[%E2%80%A6]g4P7AnhLOZQVIoVC9croO7-i74DfuezIOztALzi5RVJ3jv3bxoCxmEQAvD_BwE).
+
 
 ## References
 
