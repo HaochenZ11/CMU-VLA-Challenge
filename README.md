@@ -166,7 +166,7 @@ Submissions will be made as a github repository link to a public repository. The
 
 Prior to submitting, please download the docker image and test it with the simulator as the submission will be evaluated in the same way. Please also make sure that waypoints and visualization markers sent match the types in the example dummy model and are on the same ROS topics so that the base navigation system can correctly receive them.
 
-Please fill out the [Submission Form](https://forms.gle/KsjYNaTzSTvvPafC9) with a link to your Github repo.
+Please fill out the [Submission Form](https://docs.google.com/forms/d/e/1FAIpQLSfcKWEV3ReuGEfGag0En706KDtgxjFDayE6dJIgWElQrXiDmw/viewform?usp=sharing&ouid=113649899278879140488) with a link to your Github repo.
 
 
 ## Evaluation
@@ -185,7 +185,7 @@ For each scene, 5 questions similar to those provided will be tested and a score
 - **Object Reference** (/2): ROS `visualization_msgs/Marker` message must be published on `/selected_object_marker`, and is scored based on its degree of overlap with the ground truth object bounding box. Score between 0 and 2.
 - **Instruction-Following** (/6): A series of `geometry_msgs/Pose2D` waypoints must be published on `/way_point_with_heading` to guide the vehicle. The score will be calculated based on the actual trajectory followed by the robot based on whether it follows the path constraints in the command and in the correct order. Penalties are imposed upon the score if the followed path deviates from the correct order of constraints, does not achieve the desired constraints, or passes through areas it is forbidden to go through in the command. Score between 0 and 6, with possibility for partial points. 
 
-The scores from all questions across the 3 test scenes will be totaled for each team's final score.
+The scores from all questions across the 3 test scenes will be totaled for each team's final score. Teams have a choice whether to use the ground-truth semantics posted on the /object_markers topic in their final submission. Methods that do not use the published ground-truth semantics will be scored differently.
 
 ### Timing
 
@@ -193,7 +193,7 @@ For each question, both re-exploration on system launch and question answering w
 
 
 ## Challenge FAQ
-Any questions regarding the challenge can be asked by opening a Github issue with the "question" label. Questions specific to your team situation can be emailed to haochen4@andrew.cmu.edu or other challenge organizers. Frequently asked questions will be posted here.
+Any questions regarding the challenge can be asked by opening a Github issue with the "question" label. We encourage you to use this feature so that multiple members of the team can see the question. Questions specific to your team situation can be emailed to haochen4@andrew.cmu.edu or other challenge organizers. Frequently asked questions will be posted here.
 
 1. Are multiple submissions allowed?
 
@@ -211,6 +211,17 @@ Any questions regarding the challenge can be asked by opening a Github issue wit
 
     The size limitation depends on the machine we use to run evaluation. The specs for the machine can be found [HERE](https://simplynuc.com/product/nuc13rngi9-full/?gad_source=1&gclid=CjwKCAjwiaa2BhAiE[%E2%80%A6]g4P7AnhLOZQVIoVC9croO7-i74DfuezIOztALzi5RVJ3jv3bxoCxmEQAvD_BwE).
 
+5. How will real-robot evaluation work?
+   
+   All submissions will first be evaluated in simulation first. Valid submissions will then be evaluated on the real-robot system and teams will be invited to schedule a timeslot and connect remotely to assist with the integration and evaluation.
+
+6. Will ground-truth semantics be provided in the real-robot evaluation?
+
+   Yes, ground-truth semantics will be provided in the real-world scene as well. Participants have a choice whether to use ground-truth semantics in their final submission or not and indicate this in the submission form. Methods that use it vs. methods that do not will be scored differently.
+
+8. How will presentation at the IROS workshop work?
+
+   All evaluation will be conducted prior to the IROS conference. The top 3 teams will be contacted with the opportunity to present their method either in-person or remotely.
 
 ## References
 
